@@ -17,7 +17,11 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   Form,
-  FormItem
+  FormItem,
+  Option,
+  Select,
+  Dialog,
+  Loading
 } from 'element-ui'
 
 Vue.use(Button)
@@ -37,5 +41,9 @@ Vue.use(Breadcrumb)
 Vue.use(BreadcrumbItem)
 Vue.use(Form)
 Vue.use(FormItem)
+Vue.use(Option)
+Vue.use(Select)
+Vue.use(Dialog)
+Vue.use(Loading)
 
 Vue.prototype.$message = Message
