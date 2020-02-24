@@ -73,7 +73,7 @@ export default {
     background: url("../assets/images/head-background.jpeg") no-repeat;
     background-size: cover;
     //background: linear-gradient(to bottom, #303133, 83%, black);
-    height: 150px !important;
+    height: 200px !important;
     display: flex;
     justify-content: space-between;
     padding: 0px;
@@ -85,7 +85,7 @@ export default {
     display: flex;
     align-items: center;
     h1{
-      font-size: 50px;
+      font-size: 65px;
       margin-left: 15px;
       font-weight: bold;
     //  text-shadow: 5px 2px 6px #bbbbbb;

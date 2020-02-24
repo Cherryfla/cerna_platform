@@ -80,12 +80,20 @@
           if(!valid)
             return this.$message.error('Please fill in the necessary form items')
           this.formLoading = true
-          const res = await this.$http.post('feature/analyze', this.analyzeForm)
+          const res = await this.$http.post('feature/analyze', this.analyzeForm).catch(error => {
+            if (error.response) {
+              // 请求已发出，但服务器响应的状态码不在 2xx 范围内
+              this.$message.error(error.response.data);
+            }
+            else {
+              this.$message.error(error.message);
+            }
+          });
+          console.log(res)
           this.formLoading = false
           if(res.status != 200)
            return this.$message.error('Analyze failed')
           this.resultImgPath = res.data.imgUrl
-          //console.log(this.resultImgPath)
           this.resultVisible = true
         })
       },
