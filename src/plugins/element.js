@@ -21,7 +21,11 @@ import {
   Option,
   Select,
   Dialog,
-  Loading
+  Loading,
+  Table,
+  TableColumn,
+  Pagination,
+  Input
 } from 'element-ui'
 
 Vue.use(Button)
@@ -45,5 +49,9 @@ Vue.use(Option)
 Vue.use(Select)
 Vue.use(Dialog)
 Vue.use(Loading)
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(Pagination)
+Vue.use(Input)
 
 Vue.prototype.$message = Message

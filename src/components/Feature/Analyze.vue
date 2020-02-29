@@ -89,7 +89,7 @@
               this.$message.error(error.message);
             }
           });
-          console.log(res)
+          // console.log(res)
           this.formLoading = false
           if(res.status != 200)
            return this.$message.error('Analyze failed')

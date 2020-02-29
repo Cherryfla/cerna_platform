@@ -95,11 +95,17 @@ export default {
   .el-aside{
     background: white;
   }
-  .el-main{
+  .el-main {
     /*margin: 20px 10px 10px 50px;*/
     /*width: 1050px;*/
     /*padding: 0;*/
-    background: white;
+    background: url("../assets/images/Background.png");
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+    background-attachment:fixed;
+    //position:absolute;
+
     /*border: 1px solid #bbbbbb;*/
     /*border-radius: 10px;*/
   }

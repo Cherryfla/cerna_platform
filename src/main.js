@@ -9,9 +9,11 @@ import axios from 'axios'
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 
-axios.defaults.baseURL = 'http://121.41.85.40/api'
-Vue.prototype.$http = axios
+// cors
+// axios.defaults.withCredentials = false;
 
+axios.defaults.baseURL = 'http://121.41.85.40/api/'
+Vue.prototype.$http = axios
 //在request拦截器中展示进度条
 axios.interceptors.request.use(config => {
   Nprogress.start()
