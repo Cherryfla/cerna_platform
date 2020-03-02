@@ -23,6 +23,25 @@
             <el-option label="lncRNA" value="lncRNA"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="Data Source:" prop="dataSource">
+          <el-select v-model="analyzeForm.dataSource" placeholder="Choose the data source">
+            <el-option label="default" value="default"></el-option>
+            <el-option :value="this.analyzeForm.dataSource">
+              <el-upload action="http://121.41.85.40/api/feature/upload"
+                         :limit="1" ref="formUpload" :multiple="false"
+                         :on-success="handleUploadResponse" :on-error="handleUploadResponse"
+                         :on-change="handleChange"
+                         :show-file-list="false" :auto-upload="false">
+                <em style="width: 100%;">select your file(Maximum Size: 10M)</em>
+              </el-upload>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Analyze Code:" prop="analyzeCode">
+          <el-select v-model="analyzeForm.analyzeCode" placeholder="Choose the analyze Code">
+            <el-option label="default" value="default"></el-option>
+          </el-select>
+        </el-form-item>
         <div class="button-box">
           <el-button type="primary" @click="analyzeFormSubmit">Submit</el-button>
           <el-button type="danger" @click="resetForm">Reset</el-button>
@@ -54,7 +73,9 @@
         resultImgPath: '',
         analyzeForm: {
           cancerType: '',
-          rnaType: ''
+          rnaType: '',
+          dataSource: 'default',
+          analyzeCode: 'default',
         },
         analyzeFormRules: {
           cancerType:[
@@ -65,6 +86,20 @@
             }
           ],
           rnaType: [
+            {
+              required: true,
+              message: 'Please choose RNA type',
+              trigger: 'blur'
+            }
+          ],
+          dataSource:[
+            {
+              required: true,
+              message: 'Please choose cancer type',
+              trigger: 'blur'
+            }
+          ],
+          analyzeCode: [
             {
               required: true,
               message: 'Please choose RNA type',
@@ -99,6 +134,23 @@
       },
       resetForm(){
         this.$refs.analyzeFormRef.resetFields()
+      },
+      handleUploadResponse(response, file, fileList){
+        // console.log(response, file, fileList)
+        if(file.status !== 'success')
+          return this.$message.error("Upload file error")
+        this.analyzeForm.dataSource = file.name
+        return this.$message.success("Upload file success")
+      },
+      handleChange(file){
+        if(file.status == 'ready'){
+          //console.log(file)
+          if(file.size >= 10*1024*1024){
+            this.$message.error('file too large')
+            this.$refs.formUpload.clearFiles()
+          }
+          this.$refs.formUpload.submit()
+        }
       }
     }
   }
@@ -125,4 +177,5 @@
   .resultImg{
     width: 100%;
   }
+
 </style>

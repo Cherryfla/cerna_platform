@@ -8,7 +8,7 @@
       </div>
     </el-header>
     <!--页面主体区域-->
-    <el-container>
+    <el-container class="main-container">
       <!--侧边栏-->
       <el-aside width="200px">
         <el-menu background-color="white" text-color="#333333" active-text-color="#111111" router>
@@ -96,16 +96,11 @@ export default {
     background: white;
   }
   .el-main {
-    /*margin: 20px 10px 10px 50px;*/
-    /*width: 1050px;*/
+    /*margin: 20px 10px 10px 50px*/
+    width: 1050px;
     /*padding: 0;*/
-    background: url("../assets/images/Background.png");
-    background-repeat: no-repeat;
-    background-position: right;
-    background-size: contain;
-    background-attachment:fixed;
-    //position:absolute;
 
+    //position:absolute;
     /*border: 1px solid #bbbbbb;*/
     /*border-radius: 10px;*/
   }
@@ -113,16 +108,26 @@ export default {
     text-align: center;
     font-weight: bold;
   }
-  .el-menu-item, .el-submenu{
+  .el-menu-item{
     font-weight: bold;
-    margin: 10px;
-    padding: 0px;
+    margin-left: 10px;
+    margin-top: 10px;
   }
   .el-submenu{
-
+    font-weight: bold;
+    margin-left: 10px;
+    margin-top: 10px;
+    .el-menu-item{
+      max-width: 150px !important;
+      padding: 0px;
+      min-width: 100px;
+    }
   }
   .el-card{
     width: 100%;
     height: 100%;
+  }
+  .el-menu{
+    border-right: solid 1px #e6e6e6 !important;
   }
 </style>

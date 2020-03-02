@@ -6,6 +6,7 @@ import Analyze from '../components/Feature/Analyze'
 import Contract from '../components/Contract/Contract'
 import About from '../components/About/About'
 import Download from '../components/Feature/Download'
+import FAQ from '../components/FAQ/FAQ'
 
 Vue.use(VueRouter)
 
@@ -38,6 +39,10 @@ const routes = [
       {
         path: '/download',
         component: Download
+      },
+      {
+        path: '/faq',
+        component: FAQ
       }
     ]
   }

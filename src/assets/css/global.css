@@ -4,6 +4,9 @@ html, body, #app{
     padding: 0;
     min-width: 1366px;
 }
+@media only screen and (min-width: 1500px) {
+    html, body { min-width: 1500px; }
+}
 .el-card{
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
 }
@@ -15,4 +18,18 @@ html, body, #app{
 
 .el-pagination{
     margin-top: 15px;
+}
+
+
+body{
+    background: url("../images/Background.png");
+    background-repeat: no-repeat;
+    background-position: right;
+    background-size: contain;
+    background-attachment:fixed;
+    /*min-height: 1000px !important;*/
+}
+
+.el-upload {
+    width: 100%;
 }

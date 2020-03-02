@@ -15,9 +15,6 @@
             <el-button slot="append" icon="el-icon-search" @click="getFileList"></el-button>
           </el-input>
         </el-col>
-        <el-col :span="4">
-          <el-button type="primary" @click="addDialogVisible = true">Upload</el-button>
-        </el-col>
       </el-row>
       <!--文件列表区域-->
       <el-table :data="fileList" border stripe>
@@ -45,11 +42,6 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
       </el-pagination>
-
-      <!--上传文件对话框-->
-      <el-dialog title="Upload File" :visible="uploadDialogVisible" width="50%">
-
-      </el-dialog>
     </el-card>
   </div>
 </template>
@@ -96,7 +88,11 @@
         a.click();
       },
       removeFile(){
-
+        console.log('delete')
+      },
+      submitUpload(){
+        //this.$refs.upload.submit();
+        console.log(this.uploadFileList)
       }
     },
     data() {
@@ -104,17 +100,23 @@
         queryInfo:{
           search: '',
           pageNum: 1,
-          pageSize: 2
+          pageSize: 5
         },
         searchInfo: '',
         fileList: [],
         total: 0,
-        uploadDialogVisible: false
       }
     }
   }
 </script>
 
-<style lang="less" scoped>
-
+<style scoped>
+  .el-card{
+    margin-top: 10px;
+  }
+  .uploadButton{
+    margin-top: 10px ;
+    text-align: center !important;
+    display: inline;
+  }
 </style>
