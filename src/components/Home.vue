@@ -97,7 +97,7 @@ export default {
   }
   .el-main {
     /*margin: 20px 10px 10px 50px*/
-    width: 1050px;
+    width: 100%;
     /*padding: 0;*/
 
     //position:absolute;

@@ -26,7 +26,11 @@ import {
   TableColumn,
   Pagination,
   Input,
-  Upload
+  Upload,
+  Tabs,
+  TabPane,
+  Collapse,
+  CollapseItem
 } from 'element-ui'
 
 Vue.use(Button)
@@ -55,5 +59,9 @@ Vue.use(TableColumn)
 Vue.use(Pagination)
 Vue.use(Input)
 Vue.use(Upload)
+Vue.use(Tabs)
+Vue.use(TabPane)
+Vue.use(Collapse)
+Vue.use(CollapseItem)
 
 Vue.prototype.$message = Message
