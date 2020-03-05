@@ -17,6 +17,7 @@ Vue.prototype.$http = axios
 //在request拦截器中展示进度条
 axios.interceptors.request.use(config => {
   Nprogress.start()
+  config.headers.Authorization = window.sessionStorage.getItem('token')
   return config
 })
 //在response拦截器中隐藏进度条

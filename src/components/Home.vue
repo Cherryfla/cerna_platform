@@ -6,6 +6,16 @@
         <img src="../assets/logo.png" alt="logo.png">
         <h1>ceRNA Analyze</h1>
       </div>
+      <div class="buttonBox">
+        <div v-if="isLogin==false">
+          <el-button type="success" size="mini" @click="handleLogin">Log in</el-button>
+          <el-button type="primary" size="mini" @click="handleRegister">Sign up</el-button>
+        </div>
+        <div v-else>
+          <el-button type="primary" size="mini" @click="handleProfile">Profile</el-button>
+          <el-button type="info" size="mini" @click="handleLogout">Logout</el-button>
+        </div>
+      </div>
     </el-header>
     <!--页面主体区域-->
     <el-container class="main-container">
@@ -61,7 +71,40 @@
 
 <script>
 export default {
-  name: 'Home'
+  name: 'Home',
+  created () {
+    this.judgeIfLogin()
+  },
+  data () {
+    return{
+      isLogin: false
+    }
+  },
+  methods: {
+    async judgeIfLogin(){
+      const res = await this.$http.get('islogin').catch(error => {
+        if (error.response) {
+          return this.$message.error(error.response.data);
+        }
+        else {
+          return this.$message.error(error.message);
+        }
+      })
+      this.isLogin = res.data.isLogin
+    },
+    async handleLogin() {
+      await this.$router.push('/login')
+    },
+    async handleRegister() {
+      await this.$router.push('/register')
+    },
+    handleProfile(){
+
+    },
+    handleLogout(){
+
+    }
+  }
 }
 </script>
 
@@ -79,6 +122,7 @@ export default {
     padding: 0px;
     text-align: center;
     color: #ffffff;
+    position: relative;
   }
   .header-container{
     margin: 0 auto;
@@ -129,5 +173,13 @@ export default {
   }
   .el-menu{
     border-right: solid 1px #e6e6e6 !important;
+  }
+  .buttonBox{
+    position: absolute;
+    height: 30px;
+    right: 0;
+    bottom: 0;
+    margin-right: 10px;
+    margin-bottom: 5px;
   }
 </style>

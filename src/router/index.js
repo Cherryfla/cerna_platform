@@ -7,6 +7,8 @@ import Contract from '../components/Contract/Contract'
 import About from '../components/About/About'
 import Download from '../components/Feature/Download'
 import FAQ from '../components/FAQ/FAQ'
+import Register from '../components/User/Register'
+import Login from '../components/User/Login'
 
 Vue.use(VueRouter)
 
@@ -43,6 +45,14 @@ const routes = [
       {
         path: '/faq',
         component: FAQ
+      },
+      {
+        path: '/login',
+        component: Login
+      },
+      {
+        path: '/register',
+        component: Register
       }
     ]
   }
