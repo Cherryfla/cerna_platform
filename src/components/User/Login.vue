@@ -12,6 +12,14 @@
           <el-form-item prop="username">
             <el-input type="password" v-model="loginForm.password" prefix-icon="el-icon-lock"></el-input>
           </el-form-item>
+          <el-form-item prop="captcha">
+            <el-col :span="12">
+              <el-input v-model="loginForm.captcha" prefix-icon="el-icon-location-outline"></el-input>
+            </el-col>
+            <el-col :span="12">
+              <img style="width: 100%;" :src="imgUrl" alt="captcha" @click="updateCode">
+            </el-col>
+          </el-form-item>
           <el-form-item class="inlineItem">
             <el-button type="primary" @click="handleLogin">Login</el-button>
             <el-button type="info" @click="resetLoginForm">Reset</el-button>
@@ -26,13 +34,23 @@
   export default {
     name: 'Login',
     created () {
-
+      this.loginForm.uuid = this.getUuid()
+      this.updateCode()
+      // console.log(this.imgUrl)
     },
     data () {
       return {
+        //控制验证码对话框显示与否
+        captchaDialogVisible: false,
+        //账号密码输错的次数
+        countError: 0,
+        url: '',
+        imgUrl: '',
         loginForm: {
           username: '',
-          password: ''
+          password: '',
+          captcha: '',
+          uuid: ''
         },
         loginFormRules: {
           username: [
@@ -48,33 +66,63 @@
               message: 'please input the password',
               trigger: 'blur'
             }
+          ],
+          captcha: [
+            {
+              required: true,
+              message: 'please input the captcha',
+              trigger: 'blur'
+            }
           ]
         }
       }
     },
     methods: {
-      async handleLogin(){
-        const res = await this.$http.post('user/login', this.loginForm).catch(error => {
-          if (error.response) {
-            return this.$message.error(error.response.data);
+      handleLogin(){
+        this.$refs.loginFormRef.validate(async valid => {
+          if(!valid)
+              return
+          const res = await this.$http.post('user/login', this.loginForm).catch(error => {
+            if (error.response) {
+              return this.$message.error(error.response.data);
+            }
+            else {
+              return this.$message.error(error.message);
+            }
+          })
+          if(res.status !== 200)
+            return this.$message.error('login failed')
+          // console.log(res)
+          if(res.data.msg !== 'success') {
+            this.updateCode()
+            return this.$message.error(res.data.msg)
           }
-          else {
-            return this.$message.error(error.message);
-          }
+          this.$message.success('Login success')
+          // 保存token
+          const token = res.data.token
+          window.sessionStorage.setItem('token', token)
+          this.$emit('changeIsLogin', 1)
+          await this.$router.replace('/home')
         })
-        if(res.status !== 200)
-          this.$message.error('login failed')
-        console.log(res)
-        if(res.data.msg !== 'success')
-          this.$message.error(res.data.msg)
-        this.$message.success('Login success')
-        // 保存token
-        const token = res.data.token
-        window.sessionStorage.setItem('token', token)
-        await this.$router.push('/home')
       },
       resetLoginForm(){
         this.$refs.loginFormRef.resetFields()
+      },
+      transform(buffer){
+        let res = '';
+        let bytes = new Uint8Array(buffer);
+        let len = bytes.byteLength;
+        for (let i = 0; i < len; i++) {
+          res += String.fromCharCode(bytes[i]);
+        }
+        return res
+      },
+      updateCode() {
+        this.$http.get(`captcha/${this.loginForm.uuid}`, { responseType: 'arraybuffer' }).then((res) =>
+        {
+          let str = this.transform(res.data)
+          this.imgUrl = 'data:image/jpg;base64,' + str
+        });
       }
     }
   }

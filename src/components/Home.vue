@@ -7,13 +7,13 @@
         <h1>ceRNA Analyze</h1>
       </div>
       <div class="buttonBox">
-        <div v-if="isLogin==false">
-          <el-button type="success" size="mini" @click="handleLogin">Log in</el-button>
-          <el-button type="primary" size="mini" @click="handleRegister">Sign up</el-button>
-        </div>
-        <div v-else>
+        <div v-if="isLogin">
           <el-button type="primary" size="mini" @click="handleProfile">Profile</el-button>
           <el-button type="info" size="mini" @click="handleLogout">Logout</el-button>
+        </div>
+        <div v-else>
+          <el-button type="success" size="mini" @click="handleLogin">Log in</el-button>
+          <el-button type="primary" size="mini" @click="handleRegister">Sign up</el-button>
         </div>
       </div>
     </el-header>
@@ -60,7 +60,7 @@
       <el-container>
         <!--右侧主体区域-->
         <el-main>
-          <router-view></router-view>
+          <router-view @changeIsLogin='changeIsLogin'></router-view>
         </el-main>
         <!--页脚区域-->
         <el-footer>This website is for educational and research purposes only.</el-footer>
@@ -70,17 +70,23 @@
 </template>
 
 <script>
+
 export default {
   name: 'Home',
   created () {
+    this.isLogin = 0
     this.judgeIfLogin()
+    // console.log('in create ' + this.isLogin)
   },
   data () {
     return{
-      isLogin: false
+      isLogin: 0
     }
   },
   methods: {
+    changeIsLogin(value){
+      this.isLogin = value
+    },
     async judgeIfLogin(){
       const res = await this.$http.get('islogin').catch(error => {
         if (error.response) {
@@ -91,6 +97,11 @@ export default {
         }
       })
       this.isLogin = res.data.isLogin
+      if(res.data.msg === "Invalid_Token") {
+        await this.$router.push('/login')
+        return this.$message.error("Invalid Token")
+      }
+      // console.log(this.isLogin)
     },
     async handleLogin() {
       await this.$router.push('/login')
@@ -98,11 +109,14 @@ export default {
     async handleRegister() {
       await this.$router.push('/register')
     },
-    handleProfile(){
-
+    async handleProfile(){
+      await this.$router.push('/profile')
     },
     handleLogout(){
-
+      window.sessionStorage.clear()
+      this.judgeIfLogin()
+      this.$router.push('/main')
+      this.$message.info("Logout")
     }
   }
 }

@@ -7,7 +7,7 @@
     </el-breadcrumb>
     <!--注册表单区域-->
     <el-card>
-      <el-form ref="registerFormRef" :model="registerForm" :rules="analyzeFormRules" label-position="top">
+      <el-form ref="registerFormRef" :model="registerForm" :rules="registerFormRules" label-position="top">
         <el-form-item label="Username:" prop="username">
           <el-input v-model="registerForm.username"
                     placeholder="Length between 4 to 15"></el-input>
@@ -85,7 +85,7 @@
           email: '',
           repeatPassword: ''
         },
-        analyzeFormRules: {
+        registerFormRules: {
           username: [
             {
               required: true,
@@ -134,22 +134,26 @@
       }
     },
     methods: {
-      async registerFormSubmit(){
-        const res = await this.$http.post('user/register', this.registerForm).catch(error => {
-          if (error.response) {
-            return this.$message.error(error.response.data);
-          }
-          else {
-            return this.$message.error(error.message);
-          }
+      registerFormSubmit(){
+        this.$refs.registerFormRef.validate(async valid => {
+          if(!valid)
+            return
+          const res = await this.$http.post('user/register', this.registerForm).catch(error => {
+            if (error.response) {
+              return this.$message.error(error.response.data);
+            }
+            else {
+              return this.$message.error(error.message);
+            }
+          })
+          // console.log(res)
+          if(res.status != 200)
+            return this.$message.error("Sign up failed");
+          if(res.data.msg != 'success')
+            return this.$message.error(res.data.msg)
+          this.$message.success('success')
+          await this.$router.push('/home')
         })
-        // console.log(res)
-        if(res.status != 200)
-          return this.$message.error("Sign up failed");
-        if(res.data.msg != 'success')
-          return this.$message.error(res.data.msg)
-        this.$message.success('success')
-        await this.$router.push('/home')
       },
       resetForm(){
         this.$refs.registerFormRef.resetFields()
