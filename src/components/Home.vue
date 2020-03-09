@@ -36,6 +36,7 @@
             <el-menu-item index="summary">Summary</el-menu-item>
             <el-menu-item index="analyze">Analyze</el-menu-item>
             <el-menu-item index="download">Download</el-menu-item>
+            <el-menu-item index="history">History</el-menu-item>
           </el-submenu>
           <el-menu-item index="about">
             <template slot="title">

@@ -30,7 +30,8 @@ import {
   Tabs,
   TabPane,
   Collapse,
-  CollapseItem
+  CollapseItem,
+  Tag,
 } from 'element-ui'
 
 Vue.use(Button)
@@ -63,5 +64,5 @@ Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Collapse)
 Vue.use(CollapseItem)
-
+Vue.use(Tag)
 Vue.prototype.$message = Message

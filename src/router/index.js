@@ -10,6 +10,7 @@ import FAQ from '../components/FAQ/FAQ'
 import Register from '../components/User/Register'
 import Login from '../components/User/Login'
 import Profile from '../components/User/Profile'
+import History from '../components/Feature/History'
 
 // 解决router.push跳转到同一路径发生的NavigationDuplicated错误
 const originalPush = VueRouter.prototype.push
@@ -65,6 +66,10 @@ const routes = [
       {
         path: '/profile',
         component: Profile
+      },
+      {
+        path: '/history',
+        component: History
       }
     ]
   }

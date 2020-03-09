@@ -7,7 +7,7 @@
       <el-breadcrumb-item>Download</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
-      <!--搜索与添加区域-->
+      <!--搜索区域-->
       <el-row :gutter="20">
         <el-col :span="8">
           <el-input placeholder="Please input file name" v-model="queryInfo.search"
@@ -102,7 +102,6 @@
           pageNum: 1,
           pageSize: 5
         },
-        searchInfo: '',
         fileList: [],
         total: 0,
       }
