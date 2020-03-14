@@ -3,7 +3,7 @@
     <!--面包屑导航-->
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">Home</el-breadcrumb-item>
-      <el-breadcrumb-item>Sign up</el-breadcrumb-item>
+      <el-breadcrumb-item>Profile</el-breadcrumb-item>
     </el-breadcrumb>
     <!--注册表单区域-->
     <el-card>
@@ -114,9 +114,7 @@
           })
           // console.log(res)
           if(res.status != 200)
-            return this.$message.error("Sign up failed");
-          if(res.data.msg != 'success')
-            return this.$message.error(res.data.msg)
+            return this.$message.error("Sign up failed")
           this.$message.success('Update success')
           await this.$router.push('/home')
         })
@@ -129,6 +127,8 @@
             return this.$message.error(error.message);
           }
         })
+        if(res.status !== 200)
+          this.$message.error('Get user profile error')
         this.profileForm.username = res.data.username
         this.profileForm.password = res.data.password
         this.profileForm.email = res.data.email

@@ -7,14 +7,17 @@
             <h2>Welcome Back</h2>
           </el-form-item>
           <el-form-item prop="username">
-            <el-input v-model="loginForm.username" prefix-icon="el-icon-user"></el-input>
+            <el-input v-model="loginForm.username" prefix-icon="el-icon-user"
+                      placeholder="Username"></el-input>
           </el-form-item>
-          <el-form-item prop="username">
-            <el-input type="password" v-model="loginForm.password" prefix-icon="el-icon-lock"></el-input>
+          <el-form-item prop="password">
+            <el-input type="password" v-model="loginForm.password" prefix-icon="el-icon-lock"
+                      placeholder="Password"></el-input>
           </el-form-item>
           <el-form-item prop="captcha">
             <el-col :span="12">
-              <el-input v-model="loginForm.captcha" prefix-icon="el-icon-location-outline"></el-input>
+              <el-input v-model="loginForm.captcha" prefix-icon="el-icon-location-outline"
+                        placeholder="Captcha"></el-input>
             </el-col>
             <el-col :span="12">
               <img style="width: 100%;" :src="imgUrl" alt="captcha" @click="updateCode">
@@ -101,8 +104,8 @@
           // 保存token
           const token = res.data.token
           window.sessionStorage.setItem('token', token)
-          this.$emit('changeIsLogin', 1)
-          await this.$router.replace('/home')
+          this.$emit('changeIsLogin')
+          await this.$router.push('/home')
         })
       },
       resetLoginForm(){

@@ -32,6 +32,7 @@ import {
   Collapse,
   CollapseItem,
   Tag,
+  MessageBox
 } from 'element-ui'
 
 Vue.use(Button)
@@ -65,4 +66,6 @@ Vue.use(TabPane)
 Vue.use(Collapse)
 Vue.use(CollapseItem)
 Vue.use(Tag)
+
 Vue.prototype.$message = Message
+Vue.prototype.$confirm = MessageBox.confirm

@@ -11,6 +11,7 @@ import Register from '../components/User/Register'
 import Login from '../components/User/Login'
 import Profile from '../components/User/Profile'
 import History from '../components/Feature/History'
+import Administrator from '../components/Admin/Administrator'
 
 // 解决router.push跳转到同一路径发生的NavigationDuplicated错误
 const originalPush = VueRouter.prototype.push
@@ -70,6 +71,10 @@ const routes = [
       {
         path: '/history',
         component: History
+      },
+      {
+        path: '/admin',
+        component: Administrator
       }
     ]
   }
@@ -81,11 +86,17 @@ const router = new VueRouter({
 
 //挂载路由导航守卫
 router.beforeEach((to, from, next) => {
-  if(to.path !== '/profile')
+  let authPages = ['/profile', '/history', '/admin']
+  if(! authPages.includes(to.path)) {
     return next()
+  }
   const tokenStr = window.sessionStorage.getItem('token')
-  if(!tokenStr)
-    next('/login')
+  if(!tokenStr) {
+    return next('/login')
+  }
+  else{
+    return next()
+  }
 })
 
 export default router

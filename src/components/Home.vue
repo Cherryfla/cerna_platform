@@ -56,6 +56,12 @@
               <span>Contract</span>
             </template>
           </el-menu-item>
+          <el-menu-item index="admin" v-if="isLogin && power <= 1">
+            <template slot="title">
+              <i class="el-icon-s-platform"></i>
+              <span>Administrator</span>
+            </template>
+          </el-menu-item>
         </el-menu>
       </el-aside>
       <el-container>
@@ -81,12 +87,13 @@ export default {
   },
   data () {
     return{
-      isLogin: 0
+      isLogin: 0,
+      power: 5
     }
   },
   methods: {
-    changeIsLogin(value){
-      this.isLogin = value
+    changeIsLogin(){
+      this.judgeIfLogin()
     },
     async judgeIfLogin(){
       const res = await this.$http.get('islogin').catch(error => {
@@ -97,12 +104,13 @@ export default {
           return this.$message.error(error.message);
         }
       })
+      // console.log(res)
       this.isLogin = res.data.isLogin
+      this.power = res.data.power
       if(res.data.msg === "Invalid_Token") {
         await this.$router.push('/login')
         return this.$message.error("Invalid Token")
       }
-      // console.log(this.isLogin)
     },
     async handleLogin() {
       await this.$router.push('/login')
