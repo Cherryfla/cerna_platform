@@ -11,7 +11,9 @@ import Register from '../components/User/Register'
 import Login from '../components/User/Login'
 import Profile from '../components/User/Profile'
 import History from '../components/Feature/History'
-import Administrator from '../components/Admin/Administrator'
+import Admin from '../components/Admin/Admin'
+import AdminUser from '../components/Admin/AdminUser'
+import AdminFaq from '../components/Admin/AdminFaq'
 
 // 解决router.push跳转到同一路径发生的NavigationDuplicated错误
 const originalPush = VueRouter.prototype.push
@@ -74,7 +76,17 @@ const routes = [
       },
       {
         path: '/admin',
-        component: Administrator
+        component: Admin,
+        children: [
+          {
+            path: 'user',
+            component: AdminUser
+          },
+          {
+            path: 'faq',
+            component: AdminFaq
+          }
+        ]
       }
     ]
   }
@@ -87,7 +99,7 @@ const router = new VueRouter({
 //挂载路由导航守卫
 router.beforeEach((to, from, next) => {
   let authPages = ['/profile', '/history', '/admin']
-  if(! authPages.includes(to.path)) {
+  if(! authPages.includes(to.path) && !to.path.includes('/admin')) {
     return next()
   }
   const tokenStr = window.sessionStorage.getItem('token')

@@ -22,7 +22,7 @@
       <!--侧边栏-->
       <el-aside width="200px">
         <el-menu background-color="white" text-color="#333333" active-text-color="#111111" router>
-          <el-menu-item index="home">
+          <el-menu-item index="/home">
             <template slot="title">
               <i class="el-icon-s-home"></i>
               <span>Home</span>
@@ -33,30 +33,30 @@
               <i class="el-icon-s-tools"></i>
               <span>Feature</span>
             </template>
-            <el-menu-item index="summary">Summary</el-menu-item>
-            <el-menu-item index="analyze">Analyze</el-menu-item>
-            <el-menu-item index="download">Download</el-menu-item>
-            <el-menu-item index="history">History</el-menu-item>
+            <el-menu-item index="/summary">Summary</el-menu-item>
+            <el-menu-item index="/analyze">Analyze</el-menu-item>
+            <el-menu-item index="/download">Download</el-menu-item>
+            <el-menu-item index="/history">History</el-menu-item>
           </el-submenu>
-          <el-menu-item index="about">
+          <el-menu-item index="/about">
             <template slot="title">
               <i class="el-icon-info"></i>
               <span>About</span>
             </template>
           </el-menu-item>
-          <el-menu-item index="faq">
+          <el-menu-item index="/faq">
             <template slot="title">
               <i class="el-icon-question"></i>
               <span>FAQ</span>
             </template>
           </el-menu-item>
-          <el-menu-item index="contract">
+          <el-menu-item index="/contract">
             <template slot="title">
               <i class="el-icon-phone"></i>
               <span>Contract</span>
             </template>
           </el-menu-item>
-          <el-menu-item index="admin" v-if="isLogin && power <= 1">
+          <el-menu-item index="/admin" v-if="isLogin && power <= 1">
             <template slot="title">
               <i class="el-icon-s-platform"></i>
               <span>Administrator</span>

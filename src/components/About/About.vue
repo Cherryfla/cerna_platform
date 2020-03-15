@@ -20,6 +20,11 @@
             Date: <span class="date">{{dataDate}}</span>
           </p>
         </div>
+        <div class="mapBox">
+          <a href="https://clustrmaps.com/site/1b48n"  title="Visit tracker">
+            <img width="100%" src="//www.clustrmaps.com/map_v2.png?d=0MnFwIRn42C8Udie3yqpJW9lXGc42fNIFb27xS0OBIg&cl=ffffff" />
+          </a>
+        </div>
       </div>
     </div>
 </template>
@@ -44,5 +49,8 @@
 </script>
 
 <style scoped>
-
+  .mapBox{
+    width: 250px;
+    height: auto;
+  }
 </style>
