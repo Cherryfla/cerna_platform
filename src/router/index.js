@@ -11,9 +11,11 @@ import Register from '../components/User/Register'
 import Login from '../components/User/Login'
 import Profile from '../components/User/Profile'
 import History from '../components/Feature/History'
+import Summary from '../components/Feature/Summary'
 import Admin from '../components/Admin/Admin'
 import AdminUser from '../components/Admin/AdminUser'
 import AdminFaq from '../components/Admin/AdminFaq'
+import AdminFiles from '../components/Admin/AdminFiles'
 
 // 解决router.push跳转到同一路径发生的NavigationDuplicated错误
 const originalPush = VueRouter.prototype.push
@@ -75,6 +77,10 @@ const routes = [
         component: History
       },
       {
+        path: '/summary',
+        component: Summary
+      },
+      {
         path: '/admin',
         component: Admin,
         children: [
@@ -85,6 +91,10 @@ const routes = [
           {
             path: 'faq',
             component: AdminFaq
+          },
+          {
+            path: 'files',
+            component: AdminFiles
           }
         ]
       }

@@ -28,7 +28,7 @@
             <el-button type="primary" icon="el-icon-download" size="mini"
                        @click="downloadFile(scope.row.fields.file_name)"></el-button>
             <el-button type="danger" icon="el-icon-delete" size="mini"
-                       @click="removeFile(scope.row.fields.file_name)" :disabled="true"></el-button>
+                       @click="deleteFile(scope.row.fields.file_name)" :disabled="power >= 5"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -51,6 +51,13 @@
 
   export default {
     name: 'download',
+    props: ['power'],
+    watch: {
+      power: function (val) {
+        // 接收父组件的值
+        // console.log(val)
+      }
+    },
     created () {
       this.getFileList()
     },
@@ -87,13 +94,31 @@
         a.href = fileUrl;
         a.click();
       },
-      removeFile(){
-        console.log('delete')
-      },
-      submitUpload(){
-        //this.$refs.upload.submit();
-        console.log(this.uploadFileList)
+      async deleteFile(fileName){
+        const confirmResult = await this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).catch(error => error)
+        if(confirmResult !== 'confirm'){
+          this.$message.info('取消删除')
+        }
+        else{
+          const res = await this.$http.delete('admin/filesmanage', {
+            params: {
+              'fileName': fileName
+            }
+          })
+          if(res.status !== 200){
+            return this.$message.error('Delete file failed')
+          }
+          if (res.data.msg !== 'success')
+            return this.$message.error(res.data.msg)
+          this.getFileList()
+          return this.$message.success('delete success')
+        }
       }
+
     },
     data() {
       return {
@@ -104,6 +129,7 @@
         },
         fileList: [],
         total: 0,
+        // downLoadPower: 5
       }
     }
   }

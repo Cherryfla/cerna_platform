@@ -67,7 +67,7 @@
       <el-container>
         <!--右侧主体区域-->
         <el-main>
-          <router-view @changeIsLogin='changeIsLogin'></router-view>
+          <router-view @changeIsLogin='changeIsLogin' v-bind:power="power"></router-view>
         </el-main>
         <!--页脚区域-->
         <el-footer>This website is for educational and research purposes only.</el-footer>

@@ -15,9 +15,11 @@
       <el-collapse accordion @change="handleChange">
         <el-collapse-item v-for="(item, index) in issueList" :key="item.pk" :name="index">
           <template slot="title">
-            <i v-if="item.fields.answer == 'No_Answer'"
-               class="header-icon el-icon-star-on"></i>
-            {{item.fields.question}}
+            <el-badge :is-dot="item.fields.answer == 'No_Answer'">
+              <div style="height: 30px; line-height: 30px">
+                {{item.fields.question}}
+              </div>
+            </el-badge>
           </template>
           <el-form ref="issueFormRef" :model="issueForm" :rules="issueFormRules">
             <el-form-item prop="answer">

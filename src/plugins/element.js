@@ -32,7 +32,8 @@ import {
   Collapse,
   CollapseItem,
   Tag,
-  MessageBox
+  MessageBox,
+  Badge
 } from 'element-ui'
 
 Vue.use(Button)
@@ -66,6 +67,7 @@ Vue.use(TabPane)
 Vue.use(Collapse)
 Vue.use(CollapseItem)
 Vue.use(Tag)
+Vue.use(Badge)
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
