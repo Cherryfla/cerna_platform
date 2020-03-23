@@ -12,6 +12,7 @@ import Login from '../components/User/Login'
 import Profile from '../components/User/Profile'
 import History from '../components/Feature/History'
 import Summary from '../components/Feature/Summary'
+import Data from '../components/Feature/Data'
 import Admin from '../components/Admin/Admin'
 import AdminUser from '../components/Admin/AdminUser'
 import AdminFaq from '../components/Admin/AdminFaq'
@@ -79,6 +80,10 @@ const routes = [
       {
         path: '/summary',
         component: Summary
+      },
+      {
+        path: '/data/:id',
+        component: Data
       },
       {
         path: '/admin',

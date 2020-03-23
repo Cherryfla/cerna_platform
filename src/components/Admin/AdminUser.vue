@@ -54,7 +54,7 @@
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="editDialogVisible = false">取 消</el-button>
+          <el-button @click="editUserDialogVisible = false">取 消</el-button>
           <el-button type="primary" @click="editUserInfo">确 定</el-button>
         </span>
       </el-dialog>
@@ -179,8 +179,7 @@
           const res = await this.$http.put('admin/usermanage', this.editUserForm).catch(error => {
             if (error.response) {
               this.$message.error(error.response.data);
-            }
-            else {
+            } else {
               this.$message.error(error.message);
             }
           })

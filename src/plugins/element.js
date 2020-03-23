@@ -33,7 +33,8 @@ import {
   CollapseItem,
   Tag,
   MessageBox,
-  Badge
+  Badge,
+  Popover
 } from 'element-ui'
 
 Vue.use(Button)
@@ -68,6 +69,7 @@ Vue.use(Collapse)
 Vue.use(CollapseItem)
 Vue.use(Tag)
 Vue.use(Badge)
+Vue.use(Popover)
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
