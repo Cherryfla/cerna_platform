@@ -14,13 +14,13 @@
         <el-form-item  label="Register Time:">
           <el-input :disabled="true" v-model="profileForm.register_time"></el-input>
         </el-form-item>
+        <el-form-item label="Email:" prop="email">
+          <el-input v-model="profileForm.email"
+                    placeholder="Please input your email" disabled></el-input>
+        </el-form-item>
         <el-form-item label="Old Password:" prop="oldPassword">
           <el-input type="password" v-model="profileForm.oldPassword"
                     placeholder="Please input old password"></el-input>
-        </el-form-item>
-        <el-form-item label="Email:" prop="email">
-          <el-input v-model="profileForm.email"
-                    placeholder="Please input your email"></el-input>
         </el-form-item>
         <el-form-item label="New Password:" prop="newPassword" >
           <el-input :type="passwordType" v-model="profileForm.newPassword"

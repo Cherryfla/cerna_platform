@@ -24,10 +24,23 @@
           <el-input v-model="registerForm.email"
                     placeholder="Please input your email"></el-input>
         </el-form-item>
+        <el-form-item label="Verification code: " prop="authCode">
+          <el-row>
+            <el-col :span="15">
+              <el-input v-model="registerForm.authCode"
+                        placeholder="Email verification code"></el-input>
+            </el-col>
+            <el-col :span="2">
+              <el-button style="margin-left: 10px" type="success" :disabled="buttonDisabled" @click="sendButtonClick">
+                {{buttonText}}
+              </el-button>
+            </el-col>
+          </el-row>
+        </el-form-item>
       </el-form>
       <div class="button-box">
-        <el-button type="primary" @click="registerFormSubmit">Submit</el-button>
-        <el-button type="danger" @click="resetForm">Reset</el-button>
+        <el-button class="footBtn" type="primary" @click="registerFormSubmit">Submit</el-button>
+        <el-button class="footBtn" type="danger" @click="resetForm">Reset</el-button>
       </div>
     </el-card>
   </div>
@@ -83,7 +96,8 @@
           username: '',
           password: '',
           email: '',
-          repeatPassword: ''
+          repeatPassword: '',
+          authCode: '',
         },
         registerFormRules: {
           username: [
@@ -129,8 +143,17 @@
               validator: checkEmail,
               trigger: 'blur'
             }
+          ],
+          authCode: [
+            {
+              required: true,
+              message: 'Please input the verification code',
+              trigger: 'blur'
+            }
           ]
-        }
+        },
+        buttonDisabled: false,
+        buttonText: 'Send'
       }
     },
     methods: {
@@ -157,6 +180,49 @@
       },
       resetForm(){
         this.$refs.registerFormRef.resetFields()
+      },
+      sendButtonClick(){
+        if (this.buttonDisabled)
+          return
+        this.$refs.registerFormRef.validateField("email", async validStr =>{
+          // console.log(validStr)
+          if(!validStr){
+            const res = await this.$http.get('user/sendemailcode', {
+              params: {
+                'email': this.registerForm.email,
+                'type': 0
+              }
+            }).catch(error => {
+              if (error.response) {
+                return this.$message.error(error.response.data);
+              } else {
+                return this.$message.error(error.message);
+              }
+            })
+            if(res.status !== 200)
+              return this.$message.error('Send error')
+            if(res.data.msg !== 'success')
+              return this.$message.error(this.data.msg)
+            return this.$message.success('Send success')
+            this.getSecond(60)
+          }
+        })
+      },
+      // 倒计时wait秒
+      getSecond(wait){
+        if(wait === 0) {
+          this.buttonDisabled = false
+          this.buttonText="Send"
+        }
+        else {
+          this.buttonDisabled = true;
+          this.buttonText=`wait ${wait}s`
+          // console.log(wait)
+          setTimeout(() => {
+            this.getSecond(wait-1 );
+          },
+            1000);
+        }
       }
     }
   }
@@ -170,10 +236,13 @@
     margin-top: 40px ;
     text-align: center;
   }
-  .el-button{
-    width: 250px;
+  .footBtn{
+    width: 250px !important;
   }
   .el-form-item{
     width: 500px !important;
+  }
+  .sendButton{
+    height: 100% !important;
   }
 </style>
