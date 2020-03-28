@@ -35,13 +35,32 @@
               <el-form-item label="Description">
                 {{scope.row.fields.description}}
               </el-form-item>
+              <el-form-item label="Tags">
+                <el-tag class="dataTags" v-for="(item,i) in scope.row.fields.tags " :key="i"
+                        :closable="isAdmin"  @close="handleTagClose(i, scope.row)">
+                  {{item}}
+                </el-tag>
+                <el-input
+                  class="input-new-tag"
+                  v-model="scope.row.inputValue"
+                  v-if="isAdmin & scope.row.inputVisible"
+                  ref="showTagInput"
+                  size="small"
+                  @keyup.enter.native="handleInputConfirm(scope.row)"
+                  @blur="handleInputConfirm(scope.row)">
+                </el-input>
+                <el-button v-else-if="isAdmin & !scope.row.inputVisible"
+                           size="small" @click="showInput(scope.row)">
+                  + New Tag
+                </el-button>
+              </el-form-item>
             </el-form>
           </template>
         </el-table-column>
         <el-table-column type="index" label="#"></el-table-column>
         <el-table-column label="Data">
           <template slot-scope="scope" >
-            <el-tag type="info" style="cursor:pointer" @click="goToData(scope.row.fields.name)">
+            <el-tag class="dataName" type="info" style="cursor:pointer" @click="goToData(scope.row.fields.name)">
               {{scope.row.fields.name}}
             </el-tag>
           </template>
@@ -49,7 +68,7 @@
         <el-table-column label="Uploader" prop="fields.author"></el-table-column>
         <el-table-column label="Source" prop="fields.source"></el-table-column>
         <el-table-column width="300px" label="Post time" prop="fields.date"></el-table-column>
-        <el-table-column width="250px" label="Operation" v-if="power <= 1">
+        <el-table-column width="250px" label="Operation" v-if="isAdmin">
           <template slot-scope="scope">
             <el-button type="primary" icon="el-icon-edit" size="mini"
                        @click="showEditSummaryDialog(scope.$index)"></el-button>
@@ -68,9 +87,10 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
       </el-pagination>
+
     </el-card>
     <el-dialog title="编辑数据" :visible.sync="editSummaryVisible" width="50%" @close="editSummaryClose">
-      <el-form :model="editSummaryForm" ref="editSummaryFormRef" :rules="editSummaryFormRef">
+      <el-form :model="editSummaryForm" ref="editSummaryFormRef" :rules="editSummaryFormRules">
         <el-form-item label="Source:" prop="source">
           <el-input v-model="editSummaryForm.source"></el-input>
         </el-form-item>
@@ -83,6 +103,7 @@
         <el-button type="primary" @click="editSummary">确 定</el-button>
       </span>
     </el-dialog>
+
   </div>
 </template>
 
@@ -98,6 +119,7 @@
     },
     data () {
       return {
+        xxx: '',
         summaryList: [],
         //数据总数
         total: 0,
@@ -112,7 +134,7 @@
           source: '',
           description: ''
         },
-        editSummaryFormRef: {
+        editSummaryFormRules: {
           source: [
             {
               min: 0,
@@ -129,7 +151,7 @@
               trigger: 'blur'
             }
           ]
-        }
+        },
       }
     },
     methods: {
@@ -146,7 +168,14 @@
         })
         if(res.status !== 200)
           return this.$message.error('get file summary list failed')
+        res.data.list.forEach(item => {
+            item.fields.tags = item.fields.tags? item.fields.tags.split(',') : []
+            item.inputVisible = false
+            item.inputValue = ''
+        })
         this.summaryList = res.data.list
+
+        // console.log(this.summaryList)
         this.total = res.data.total
       },
       handleSizeChange(newSize){
@@ -213,6 +242,44 @@
       },
       goToData(name){
         this.$router.push(`/data/${name}`)
+      },
+      //处理tag关闭事件
+      handleTagClose(i, row){
+        row.fields.tags.splice(i, 1)
+        this.saveTags(row)
+      },
+      //修改数据的tag属性
+      async saveTags(row){
+        const res = await this.$http.put(`admin/summarytags/${row.pk}`,{
+          tags: row.fields.tags.join(',')
+        })
+        if(res.status !== 200){
+          return this.$message.error('failed')
+        }
+        return this.$message.success('success')
+      },
+      //文本框失去焦点，或是按下enter键都会触发
+      async handleInputConfirm(row){
+        if(row.inputValue.trim().length === 0){
+          row.inputVisible = false
+          row.inputValue = ''
+          return
+        }
+        row.fields.tags.push(row.inputValue.trim())
+        row.inputVisible = false
+        row.inputValue = ''
+        this.saveTags(row)
+      },
+      showInput(row) {
+        row.inputVisible = true
+        this.$nextTick(() => {
+          this.$refs.showTagInput.$refs.input.focus();
+        })
+      },
+    },
+    computed: {
+      isAdmin(){
+        return this.power < 5
       }
     }
   }
@@ -222,10 +289,15 @@
   .el-card{
     margin-top: 10px;
   }
-  .el-tag{
+  .dataName{
     font-weight: bold;
     width: 100px;
     text-align: center;
   }
-
+  .dataTags{
+    margin: 0 5px 0 0;
+  }
+  .input-new-tag{
+    width: 120px;
+  }
 </style>

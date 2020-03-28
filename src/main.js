@@ -9,6 +9,7 @@ import axios from 'axios'
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+import './icons'
 // 生成uuid
 Vue.prototype.getUuid = function (){
   let s = [];

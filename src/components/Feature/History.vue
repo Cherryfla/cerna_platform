@@ -25,7 +25,7 @@
           <template slot-scope="scope">
             <el-tag type="success" v-if="isUrl(scope.row.fields.result)" style="cursor: pointer;"
                @click="showResult(scope.row.fields.result)">Completed</el-tag>
-            <el-tag :type="scope.row.fields.result === 'error' ? 'danger':'warning'" v-else>{{scope.row.fields.result}}</el-tag>
+            <el-tag :type="getTagType(scope.row.fields.result)" v-else>{{scope.row.fields.result}}</el-tag>
           </template>
         </el-table-column>
       </el-table>
@@ -108,6 +108,14 @@
       showResult(resultUrl){
         this.resultUrl = resultUrl
         this.resultVisible = true
+      },
+      getTagType(text){
+        if(text == 'completed' || text == 'success')
+          return 'success'
+        else if(text == 'error')
+          return 'danger'
+        else
+          return 'warning'
       }
     }
   }

@@ -14,7 +14,11 @@
         <el-table-column type="index"></el-table-column>
         <el-table-column label="Username" prop="pk"></el-table-column>
         <el-table-column label="Register time" prop="fields.register_time"></el-table-column>
-        <el-table-column label="Password" prop="fields.password"></el-table-column>
+        <el-table-column label="Password">
+          <template slot-scope="scope">
+            {{scope.row.fields.power == 0?'******':scope.row.fields.password}}
+          </template>
+        </el-table-column>
         <el-table-column label="Email" prop="fields.email"></el-table-column>
         <el-table-column label="Power" prop="fields.power"></el-table-column>
         <el-table-column label="Operation">

@@ -33,7 +33,7 @@
         <el-tab-pane label="New Issue" name="new_issue">
           <el-form ref="newIssueFormRef" :model="newIssueForm"
                    :rules="newIssueFormRules" label-position="top">
-            <el-form-item label="Your Question:" prop="question">
+            <el-form-item label="Your Question:" prop="question" >
               <el-input type="textarea" class="questionBox" :rows="12"
                         :model="newIssueForm.question" v-model="newIssueForm.question"
                         placeholder="write you question here"></el-input>
@@ -52,6 +52,10 @@
 <script>
   export default {
     name: 'FAQ.vue',
+    props: ['isLogin'],
+    watch: {
+      isLogin: function (val) {}
+    },
     created () {
       this.getIssueList()
     },

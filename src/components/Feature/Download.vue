@@ -28,7 +28,7 @@
             <el-button type="primary" icon="el-icon-download" size="mini"
                        @click="downloadFile(scope.row.fields.file_name)"></el-button>
             <el-button type="danger" icon="el-icon-delete" size="mini"
-                       @click="deleteFile(scope.row.fields.file_name)" :disabled="power >= 5"></el-button>
+                       @click="deleteFile(scope.row.fields.file_name)" v-if="power < 5"></el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -60,6 +60,7 @@
     },
     created () {
       this.getFileList()
+      // console.log(this.power)
     },
     methods: {
       async getFileList(){

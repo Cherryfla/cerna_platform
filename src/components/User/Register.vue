@@ -10,11 +10,11 @@
       <el-form ref="registerFormRef" :model="registerForm" :rules="registerFormRules" label-position="top">
         <el-form-item label="Username:" prop="username">
           <el-input v-model="registerForm.username"
-                    placeholder="Length between 4 to 15"></el-input>
+                    placeholder="Length between 4 and 15"></el-input>
         </el-form-item>
         <el-form-item label="Password:" prop="password" >
           <el-input type="password" v-model="registerForm.password"
-                    placeholder="Length between 8 to 16"></el-input>
+                    placeholder="Length between 8 and 16"></el-input>
         </el-form-item>
         <el-form-item label="Repeat Your Password:" prop="repeatPassword">
           <el-input v-model="registerForm.repeatPassword" type="password"
@@ -203,8 +203,8 @@
               return this.$message.error('Send error')
             if(res.data.msg !== 'success')
               return this.$message.error(this.data.msg)
-            return this.$message.success('Send success')
             this.getSecond(60)
+            return this.$message.success('Send success')
           }
         })
       },

@@ -150,7 +150,7 @@
   }
   .button-box{
     margin-top: 40px ;
-    text-align: center;
+    text-align: center
   }
   .el-button{
     width: 250px;
