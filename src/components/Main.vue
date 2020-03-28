@@ -3,13 +3,19 @@
       <el-row>
         <el-col :span="12">
           <el-card class="chartCard">
-            <div id="barChart" style="width: 500px;height:200px;"></div>
+            <div id="barChart" style="width: 550px;height:200px;"></div>
           </el-card>
         </el-col>
         <el-col :span="12" :offset="0">
-          <el-card class="card-panel" style="margin-left: 10px">
-            <div class="card-panel-icon-wrapper icon-people">
-              <svg-icon icon-class="Book" icon-name="card-panel-icon"></svg-icon>
+          <el-card class="chartCard" style="margin-left: 10px">
+            <div class="description">
+              <h3><i class="el-icon-data-line"></i> Platform Features: </h3>
+              <el-divider></el-divider>
+              <ul>
+                <li>Use built-in data for analysis</li>
+                <li>View your operation history</li>
+                <li>Download the data provided by us</li>
+              </ul>
             </div>
           </el-card>
         </el-col>
@@ -18,8 +24,11 @@
         <div class="cardBox">
           <el-card v-for="(item, index) in featureList" :key="index"
                    :body-style="{ padding: '0px' }" class="featureCard">
-            <img :src="require('../assets/images/'+item+'.png')" :class="item"
-                  @click="routerPush(item.toLowerCase())" style="cursor: pointer">
+            <div :class="['iconWrapper', 'div'+item]">
+              <svg-icon :icon-class="item" icon-name="'icons"></svg-icon>
+            </div>
+<!--            <img :src="require('../assets/images/'+item+'.png')" :class="item"-->
+<!--                  @click="routerPush(item.toLowerCase())" style="cursor: pointer">-->
             <div style="padding: 14px;">
               <div class="bottom clearfix">
                 <el-button class="button" @click="routerPush(item.toLowerCase())">{{item}}</el-button>
@@ -36,21 +45,25 @@
   import echarts from 'echarts'
   require('echarts/theme/macarons')
 
-  const animationDuration = 6000
+  const animationDuration = 3000
   export default {
     name: 'Welcome',
     mounted () {
-      this.$nextTick(() => {
-        this.initBarChart()
+      this.getChartData().then(()=> {
+        this.$nextTick(() => {
+          this.initBarChart()
+        })
       })
     },
     created () {
-
+      this.getChartData()
     },
     data() {
       return {
         barChart: null,
-        featureList: ['Summary', 'Analyze', 'Download', 'History']
+        featureList: ['Summary', 'Analyze', 'Download', 'History'],
+        chartKeys: ['Summary', 'Analyze', 'Download', 'History'],
+        chartScores: []
       }
     },
     methods: {
@@ -62,55 +75,84 @@
       initBarChart() {
         this.barChart = echarts.init(document.getElementById('barChart'), 'macarons')
         this.barChart.setOption({
+          title: {
+            text: "Data Tag Statistic",
+            right: '0',
+            top: '0',
+            textStyle: {
+              fontSize: '15px',
+              fontWeight: 'bold'
+            }
+          },
           tooltip: {
             trigger: 'axis',
             axisPointer: { // 坐标轴指示器，坐标轴触发有效
               type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
             }
           },
+          xAxis: {
+            type: 'category',
+            show: true,
+            interval:0,
+            data: this.chartKeys,
+
+          },
+          yAxis: {
+            minInterval: 1,
+            type: 'value'
+          },
+          axisLabel:{
+            formatter: function (value, index) {
+              if(value.length>10){
+                return value.substr(0,5)+'...'
+              }else{
+                return value
+              }
+            }
+          },
           grid: {
-            top: 10,
-            left: '5%',
-            right: '2%',
-            bottom: '3%',
+            top: '11%',
+            left: '2%',
+            right: '0%',
+            bottom: '2%',
             containLabel: true
           },
-          xAxis: [{
-            type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            axisTick: {
-              alignWithLabel: true
-            }
-          }],
-          yAxis: [{
-            type: 'value',
-            axisTick: {
-              show: false,
-            }
-          }],
           series: [{
-            name: 'pageA',
+            data: this.chartScores,
             type: 'bar',
             barWidth: '60%',
-            stack: 'vistors',
-            data: [79, 52, 200, 334, 390, 330, 220],
-            animationDuration
-          }, {
-            name: 'pageB',
-            type: 'bar',
-            barWidth: '60%',
-            stack: 'vistors',
-            data: [80, 52, 200, 334, 390, 330, 220],
-            animationDuration
-          }, {
-            name: 'pageC',
-            type: 'bar',
-            stack: 'vistors',
-            barWidth: '60%',
-            data: [30, 52, 200, 334, 390, 330, 220],
+            showBackground: true,
+            backgroundStyle: {
+              color: 'rgba(220, 220, 220, 0.8)',
+            },
+            itemStyle: {
+              emphasis: {
+                barBorderRadius: 10
+              },
+              normal: {
+                barBorderRadius: 10
+              }
+            },
             animationDuration
           }]
         })
+      },
+      async getChartData(){
+        const res = await this.$http.get('chartdata').catch(error => {
+          if (error.response) {
+            return this.$message.error(error.response.data);
+          }
+          else {
+            return this.$message.error(error.message);
+          }
+        })
+        if(res.status !== 200)
+          return this.$message.error('Get chart data failed')
+        res.data.keys.forEach(item => {
+          String(item)
+        })
+        this.chartKeys = res.data.keys
+        this.chartScores = res.data.scores
       }
     },
   }
@@ -131,47 +173,76 @@
     padding: 0px;
   }
   .featureCard{
+    position: relative;
     display: inline-block;
     margin: 10px 18px 10px;
     border-radius: 10px;
     min-height: 36px;
     height: 290px;
     width: 250px;
-    img{
-      margin-top: 10px;
-      width: 200px;
-      height: 200px;
+    text-align: center;
+    .iconWrapper{
+      margin: 30px 45px 20px 45px;
+      cursor: pointer;
+      font-size: 150px;
+      transition: all 0.38s ease-out;
+      border-radius: 10px;
+      height: 165px;
+      width: 165px;
+      line-height: 150px;
+      display: block;
+    }
+    .divSummary{
+      color: #afa1db;
+    }
+    .divAnalyze{
+      color: #36a3f7;
+    }
+    .divDownload{
+      color: #f4516c;
+    }
+    .divHistory{
+      color: #34bfa3;
+    }
+    .icons{
+      float: left;
     }
     &:hover{
-      background: #f5faff;
+      .iconWrapper{
+        color: #fff
+      }
+      .divSummary{
+        background: #afa1db;
+      }
+      .divAnalyze{
+        background: #36a3f7;
+      }
+      .divDownload{
+        background: #f4516c;
+      }
+      .divHistory{
+        background: #34bfa3;
+      }
     }
   }
   .chartCard{
     margin-top: 10px;
     border-radius: 20px;
-  }
-
-
-  .card-panel {
     height: 240px;
-    margin-top: 10px;
-    border-radius: 20px;
-    &:hover {
-      .icon-people {
-        background: #40c9c6;
-        color: #fff;
+  }
+  .description{
+    margin-left: 30px;
+    h3{
+      color: #111111;
+    }
+    li{
+      color: #999;
+      width: 280px;
+      border-radius: 5px;
+      padding-left: 5px;
+      &:hover{
+        background: #efefef;
       }
     }
-    .icon-people {
-      color: #40c9c6;
-    }
-  }
-  .icon-people {
-    width: 110px;
-    height: auto;
-    font-size: 100px;
-    text-align: center;
-    transition: all 0.38s ease-out;
-    border-radius: 6px;
   }
 </style>

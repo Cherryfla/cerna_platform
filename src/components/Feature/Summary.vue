@@ -16,7 +16,8 @@
           </el-input>
         </el-col>
       </el-row>
-      <el-table :data="summaryList" stripe>
+      <el-table :data="summaryList" :header-cell-style="{'text-align':'center'}"
+                :cell-style="{'text-align':'center'}" stripe>
         <el-table-column type="expand">
           <template slot-scope="scope">
             <el-form label-position="left" class="demo-table-expand">
@@ -175,7 +176,6 @@
         })
         this.summaryList = res.data.list
 
-        // console.log(this.summaryList)
         this.total = res.data.total
       },
       handleSizeChange(newSize){
@@ -291,7 +291,6 @@
   }
   .dataName{
     font-weight: bold;
-    width: 100px;
     text-align: center;
   }
   .dataTags{

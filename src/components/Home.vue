@@ -3,7 +3,10 @@
     <!--头部区域-->
     <el-header>
       <div class="header-container">
-        <img src="../assets/logo.png" alt="logo.png">
+<!--        <img src="../assets/logo.png" alt="logo.png">-->
+        <div class="logoBox">
+          <svg-icon icon-class="logo" class-name="platformLogo"></svg-icon>
+        </div>
         <h1>ceRNA Analyze</h1>
       </div>
       <div class="buttonBox">
@@ -153,12 +156,17 @@ export default {
     display: flex;
     align-items: center;
     h1{
-      font-size: 65px;
+      color: #ededed;
+      font-size: 70px;
       margin-left: 15px;
       font-weight: bold;
     //  text-shadow: 5px 2px 6px #bbbbbb;
       font-family: Hanzipen SC;
     }
+    .platformLogo{
+      font-size: 70px;
+    }
+
   }
   .el-aside{
     background: white;
