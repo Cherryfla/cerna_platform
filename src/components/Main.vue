@@ -24,7 +24,7 @@
         <div class="cardBox">
           <el-card v-for="(item, index) in featureList" :key="index"
                    :body-style="{ padding: '0px' }" class="featureCard">
-            <div :class="['iconWrapper', 'div'+item]">
+            <div :class="['iconWrapper', 'div'+item]" @click="routerPush(item.toLowerCase())">
               <svg-icon :icon-class="item" icon-name="'icons"></svg-icon>
             </div>
 <!--            <img :src="require('../assets/images/'+item+'.png')" :class="item"-->
@@ -232,6 +232,7 @@
   }
   .description{
     margin-left: 30px;
+
     h3{
       color: #111111;
     }

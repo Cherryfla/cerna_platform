@@ -25,6 +25,8 @@ Vue.prototype.getUuid = function (){
   return uuid;
 }
 
+
+
 // cors
 // axios.defaults.withCredentials = false;
 axios.defaults.baseURL = 'http://121.41.85.40/api/'

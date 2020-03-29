@@ -15,17 +15,28 @@
                       placeholder="Password"></el-input>
           </el-form-item>
           <el-form-item prop="captcha">
-            <el-col :span="12">
-              <el-input v-model="loginForm.captcha" prefix-icon="el-icon-location-outline"
-                        placeholder="Captcha"></el-input>
-            </el-col>
-            <el-col :span="12">
-              <img style="width: 100%;" :src="imgUrl" alt="captcha" @click="updateCode">
-            </el-col>
+            <el-row>
+              <el-col :span="12">
+                <el-input v-model="loginForm.captcha" prefix-icon="el-icon-location-outline"
+                          placeholder="Captcha"></el-input>
+              </el-col>
+              <el-col :span="12">
+                <img style="width: 100%;" :src="imgUrl" alt="captcha" @click="updateCode">
+              </el-col>
+            </el-row>
+          </el-form-item>
+          <el-form-item size="mini" style=" text-align: right;">
+            <span @click="goRetrieve" class="forgotPassword">Forgot Password?</span>
           </el-form-item>
           <el-form-item class="inlineItem">
-            <el-button type="primary" @click="handleLogin">Login</el-button>
-            <el-button type="info" @click="resetLoginForm">Reset</el-button>
+            <el-row>
+              <el-col :span="11">
+                <el-button type="primary" @click="handleLogin">Login</el-button>
+              </el-col>
+              <el-col :span="11" :offset="2">
+                <el-button type="info" @click="resetLoginForm">Reset</el-button>
+              </el-col>
+            </el-row>
           </el-form-item>
         </el-form>
       </div>
@@ -126,15 +137,18 @@
           let str = this.transform(res.data)
           this.imgUrl = 'data:image/jpg;base64,' + str
         });
+      },
+      goRetrieve(){
+        this.$router.push('retrieve')
       }
     }
   }
 </script>
 
-<style scoped>
+<style lang="less" scoped>
   .el-card{
     position: relative;
-    height: 450px;
+    height: 500px;
   }
   .loginBox{
     width: 300px;
@@ -148,5 +162,12 @@
   .inlineItem{
     display: inline;
     text-align: center;
+    .el-button{
+      width: 100%;
+    }
+  }
+  .forgotPassword{
+    font-size: 10px;
+    cursor: pointer;
   }
 </style>

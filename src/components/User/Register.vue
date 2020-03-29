@@ -7,7 +7,8 @@
     </el-breadcrumb>
     <!--注册表单区域-->
     <el-card>
-      <el-form ref="registerFormRef" :model="registerForm" :rules="registerFormRules" label-position="top">
+      <el-form ref="registerFormRef" :model="registerForm" :rules="registerFormRules"
+               label-position="top" label-width="0px">
         <el-form-item label="Username:" prop="username">
           <el-input v-model="registerForm.username"
                     placeholder="Length between 4 and 15"></el-input>
@@ -202,7 +203,7 @@
             if(res.status !== 200)
               return this.$message.error('Send error')
             if(res.data.msg !== 'success')
-              return this.$message.error(this.data.msg)
+              return this.$message.error(res.data.msg)
             this.getSecond(60)
             return this.$message.success('Send success')
           }
@@ -233,7 +234,7 @@
     margin-top: 10px;
   }
   .button-box{
-    margin-top: 40px ;
+    margin-top: 35px ;
     text-align: center;
   }
   .footBtn{

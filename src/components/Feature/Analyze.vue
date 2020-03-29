@@ -48,14 +48,6 @@
         </div>
       </el-form>
     </el-card>
-    <!--分析结果-->
-<!--    <el-dialog title="Analyze Result" :visible.sync="resultVisible" width="50%"-->
-<!--      :close-on-click-modal="false">-->
-<!--      <img :src="resultImgPath" alt="Result Image" class="resultImg">-->
-<!--      <span slot="footer" class="dialog-footer">-->
-<!--        <el-button type="primary" @click="resultVisible = false">确 定</el-button>-->
-<!--      </span>-->
-<!--    </el-dialog>-->
   </div>
 </template>
 
@@ -129,10 +121,6 @@
           if(res.status != 200)
             return this.$message.error('Analyze failed')
           await this.$router.push('/history')
-          // if(res.data.msg !== 'success')
-          //   return this.$message.error(res.data.msg)
-          // this.resultImgPath = res.data.imgUrl
-          // this.resultVisible = true
         })
       },
       resetForm(){

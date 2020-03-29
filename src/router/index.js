@@ -17,6 +17,7 @@ import Admin from '../components/Admin/Admin'
 import AdminUser from '../components/Admin/AdminUser'
 import AdminFaq from '../components/Admin/AdminFaq'
 import AdminFiles from '../components/Admin/AdminFiles'
+import Retrieve from '../components/User/Retrieve'
 
 // 解决router.push跳转到同一路径发生的NavigationDuplicated错误
 const originalPush = VueRouter.prototype.push
@@ -84,6 +85,10 @@ const routes = [
       {
         path: '/data/:id',
         component: Data
+      },
+      {
+        path: '/retrieve',
+        component: Retrieve
       },
       {
         path: '/admin',

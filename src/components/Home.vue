@@ -155,6 +155,7 @@ export default {
     margin: 0 auto;
     display: flex;
     align-items: center;
+    user-select: none;
     h1{
       color: #ededed;
       font-size: 70px;
