@@ -11,6 +11,9 @@
       <el-form ref="analyzeFormRef" :model="analyzeForm" :rules="analyzeFormRules"
                label-width="300px" label-position="top" v-loading="formLoading"
                element-loading-text="Analyzing...">
+        <el-form-item label="Analyze Type:">
+          <el-select disabled v-model="analyzeType"></el-select>
+        </el-form-item>
         <el-form-item label="Cancer Type:" prop="cancerType">
           <el-select v-model="analyzeForm.cancerType" placeholder="Please choose cancer type">
             <el-option label="THCA" value="THCA"></el-option>
@@ -38,7 +41,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="Analyze Code:" prop="analyzeCode">
-          <el-select v-model="analyzeForm.analyzeCode" placeholder="Choose the analyze Code">
+          <el-select disabled v-model="analyzeForm.analyzeCode" placeholder="Choose the analyze Code">
             <el-option label="default" value="default"></el-option>
           </el-select>
         </el-form-item>
@@ -60,6 +63,7 @@
     },
     data(){
       return {
+        analyzeType: "Differential expression",
         formLoading: false,
         resultVisible: false,
         resultImgPath: '',

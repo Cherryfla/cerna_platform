@@ -175,16 +175,15 @@
             item.inputValue = ''
         })
         this.summaryList = res.data.list
-
         this.total = res.data.total
       },
       handleSizeChange(newSize){
         this.queryInfo.pageSize = newSize
-        this.getFileList()
+        this.getSummaryList()
       },
       handleCurrentChange(newPage){
         this.queryInfo.pageNum = newPage
-        this.getFileList()
+        this.getSummaryList()
       },
       editSummary(id){
         this.$refs.editSummaryFormRef.validate(async valid => {
@@ -250,8 +249,9 @@
       },
       //修改数据的tag属性
       async saveTags(row){
-        const res = await this.$http.put(`admin/summarytags/${row.pk}`,{
-          tags: row.fields.tags.join(',')
+        const res = await this.$http.put(`admin/tagsmanage/${row.pk}`,{
+          tags: row.fields.tags.join(','),
+          type: 0
         })
         if(res.status !== 200){
           return this.$message.error('failed')
@@ -292,11 +292,5 @@
   .dataName{
     font-weight: bold;
     text-align: center;
-  }
-  .dataTags{
-    margin: 0 5px 0 0;
-  }
-  .input-new-tag{
-    width: 120px;
   }
 </style>

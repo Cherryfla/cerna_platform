@@ -25,7 +25,9 @@
         <el-form-item label="New Password:" prop="newPassword" >
           <el-input :type="passwordType" v-model="profileForm.newPassword"
                     placeholder="Please input new password">
-            <i class="el-icon-view" slot="suffix" @click="handleViewPassword"></i>
+             <i @click="handleViewPassword" slot="suffix">
+               <svg-icon :icon-class="viewIcon" ></svg-icon>
+             </i>
           </el-input>
         </el-form-item>
       </el-form>
@@ -93,7 +95,8 @@
             },
           ]
         },
-        passwordType: "password"
+        passwordType: "password",
+        viewIcon: 'view'
       }
     },
     methods: {
@@ -135,10 +138,14 @@
         this.profileForm.register_time = res.data.register_time
       },
       handleViewPassword(){
-        if( this.passwordType === 'password')
+        if( this.passwordType === 'password') {
           this.passwordType = 'text'
-        else
+          this.viewIcon = 'viewOff'
+        }
+        else {
           this.passwordType = 'password'
+          this.viewIcon = 'view'
+        }
       }
     }
   }

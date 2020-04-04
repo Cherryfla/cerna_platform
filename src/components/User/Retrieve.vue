@@ -80,7 +80,6 @@
   export default {
     name: 'Retrieve',
     created () {
-
     },
     data (){
       let checkEmail = (rule, value, callback) => {

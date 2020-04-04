@@ -3,7 +3,7 @@
       <el-row>
         <el-col :span="12">
           <el-card class="chartCard">
-            <div id="barChart" style="width: 550px;height:200px;"></div>
+            <div id="barChart" style="width: 100%;height:200px;"></div>
           </el-card>
         </el-col>
         <el-col :span="12" :offset="0">
@@ -118,8 +118,10 @@
             containLabel: true
           },
           series: [{
-            data: this.chartScores,
+            name: 'Page Summary',
+            data: this.summaryScores,
             type: 'bar',
+            stack: 'chartData',
             barWidth: '60%',
             showBackground: true,
             backgroundStyle: {
@@ -127,10 +129,29 @@
             },
             itemStyle: {
               emphasis: {
-                barBorderRadius: 10
+                barBorderRadius: 3
               },
               normal: {
-                barBorderRadius: 10
+                barBorderRadius: 3
+              }
+            },
+            animationDuration
+          }, {
+            name: 'Page Download',
+            data: this.downloadScores,
+            type: 'bar',
+            stack: 'chartData',
+            barWidth: '60%',
+            showBackground: true,
+            backgroundStyle: {
+              color: 'rgba(220, 220, 220, 0.8)',
+            },
+            itemStyle: {
+              emphasis: {
+                barBorderRadius: 3
+              },
+              normal: {
+                barBorderRadius: 3
               }
             },
             animationDuration
@@ -151,8 +172,10 @@
         res.data.keys.forEach(item => {
           String(item)
         })
+        // console.log(res)
         this.chartKeys = res.data.keys
-        this.chartScores = res.data.scores
+        this.summaryScores = res.data.summary
+        this.downloadScores = res.data.download
       }
     },
   }
@@ -229,6 +252,7 @@
     margin-top: 10px;
     border-radius: 20px;
     height: 240px;
+    min-width: 550px;
   }
   .description{
     margin-left: 30px;

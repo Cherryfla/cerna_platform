@@ -18,17 +18,36 @@
       </el-row>
       <!--文件列表区域-->
       <el-table :data="fileList" border stripe>
-        <el-table-column type="index"></el-table-column>
-        <el-table-column label="File Name" prop="fields.file_name"></el-table-column>
-        <el-table-column width="150px" label="File Size(MB)" prop="fields.file_size"></el-table-column>
-        <el-table-column width="150px" label="Author" prop="fields.file_author"></el-table-column>
+        <el-table-column fixed width="300px" label="File Name" prop="fields.file_name"></el-table-column>
+        <el-table-column width="200px" label="File Size(MB)" prop="fields.file_size"></el-table-column>
+        <el-table-column width="200px" label="Author" prop="fields.file_author"></el-table-column>
         <el-table-column width="200px" label="Date" prop="fields.file_date"></el-table-column>
         <el-table-column width="150px" label="Operation">
           <template slot-scope="scope">
             <el-button type="primary" icon="el-icon-download" size="mini"
                        @click="downloadFile(scope.row.fields.file_name)"></el-button>
             <el-button type="danger" icon="el-icon-delete" size="mini"
-                       @click="deleteFile(scope.row.fields.file_name)" v-if="power < 5"></el-button>
+                       @click="deleteFile(scope.row.fields.file_name)" v-if="isAdmin"></el-button>
+          </template>
+        </el-table-column>
+        <el-table-column width="400px" label="Tags">
+          <template slot-scope="scope">
+            <el-tag class="dataTags" v-for="(item, i) in scope.row.fields.tags" :key="i" :closable="isAdmin"
+                    @close="handleTagClose(i, scope.row)">
+              {{item}}
+            </el-tag>
+            <el-input
+              class="input-new-tag" v-model="scope.row.inputValue"
+              v-if="isAdmin & scope.row.inputVisible"
+              ref="showTagInput"
+              size="small"
+              @keyup.enter.native="handleInputConfirm(scope.row)"
+              @blur="handleInputConfirm(scope.row)">
+            </el-input>
+            <el-button v-else-if="isAdmin & !scope.row.inputVisible"
+                       size="small" @click="showInput(scope.row)">
+              + New Tag
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -53,10 +72,7 @@
     name: 'download',
     props: ['power'],
     watch: {
-      power: function (val) {
-        // 接收父组件的值
-        // console.log(val)
-      }
+      power: function (val) {}
     },
     created () {
       this.getFileList()
@@ -78,6 +94,11 @@
         // console.log(res)
         if(res.status !== 200)
           return this.$message.error('get file list failed')
+        res.data.list.forEach(item => {
+          item.fields.tags = item.fields.tags? item.fields.tags.split(',') : []
+          item.inputVisible = false
+          item.inputValue = ''
+        })
         this.fileList = res.data.list
         this.total = res.data.total
       },
@@ -118,8 +139,39 @@
           this.getFileList()
           return this.$message.success('delete success')
         }
+      },
+      handleTagClose(i, row){
+        row.fields.tags.splice(i, 1)
+        this.saveTags(row)
+      },//修改数据的tag属性
+      async saveTags(row){
+        const res = await this.$http.put(`admin/tagsmanage/${row.pk}`,{
+          tags: row.fields.tags.join(','),
+          type: 1
+        })
+        if(res.status !== 200){
+          return this.$message.error('failed')
+        }
+        return this.$message.success('success')
+      },
+      //文本框失去焦点，或是按下enter键都会触发
+      async handleInputConfirm(row){
+        if(row.inputValue.trim().length === 0){
+          row.inputVisible = false
+          row.inputValue = ''
+          return
+        }
+        row.fields.tags.push(row.inputValue.trim())
+        row.inputVisible = false
+        row.inputValue = ''
+        this.saveTags(row)
+      },
+      showInput(row) {
+        row.inputVisible = true
+        this.$nextTick(() => {
+          this.$refs.showTagInput.$refs.input.focus();
+        })
       }
-
     },
     data() {
       return {
@@ -131,6 +183,11 @@
         fileList: [],
         total: 0,
         // downLoadPower: 5
+      }
+    },
+    computed: {
+      isAdmin(){
+        return this.power < 5
       }
     }
   }

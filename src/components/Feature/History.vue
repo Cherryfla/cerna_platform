@@ -92,11 +92,11 @@
       },
       handleSizeChange(newSize){
         this.queryInfo.pageSize = newSize
-        this.getFileList()
+        this.getHistoryList()
       },
       handleCurrentChange(newPage){
         this.queryInfo.pageNum = newPage
-        this.getFileList()
+        this.getHistoryList()
       },
       dateFormat(row, column, cellValue) {
         return cellValue ? fecha.format(new Date(cellValue), 'yyyy-MM-dd HH:mm:ss') : '';

@@ -55,3 +55,9 @@ html, body{
     margin-bottom: 0;
 }
 
+.dataTags{
+    margin: 0 5px 5px 0px;
+}
+.input-new-tag{
+    width: 120px;
+}
