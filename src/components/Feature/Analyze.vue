@@ -30,7 +30,7 @@
           <el-select v-model="analyzeForm.dataSource" placeholder="Choose the data source">
             <el-option label="default" value="default"></el-option>
             <el-option :value="this.analyzeForm.dataSource">
-              <el-upload action="http://121.41.85.40/api/feature/upload"
+              <el-upload :action="this.$http.defaults.baseURL + 'feature/upload'"
                          :limit="1" ref="formUpload" :multiple="false"
                          :on-success="handleUploadResponse" :on-error="handleUploadResponse"
                          :on-change="handleChange"

@@ -55,8 +55,8 @@
     data () {
       return{
         activeName: 0,
-        uploadAction: "http://121.41.85.40/api/admin/filesmanage",
-        summaryAction: "http://121.41.85.40/api/admin/summarymanage",
+        uploadAction: `${this.$http.defaults.baseURL}admin/filesmanage`,
+        summaryAction: `${this.$http.defaults.baseURL}admin/summarymanage`,
         summaryLoading: false
       }
     },
