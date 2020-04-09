@@ -43,7 +43,7 @@
       <el-dialog title="Analyze Result" :visible.sync="resultVisible" width="500px">
         <img :src="resultUrl" alt="Result Image" class="resultImg">
         <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="resultVisible = false">确 定</el-button>
+        <el-button type="primary" @click="resultVisible = false">Confirm</el-button>
       </span>
       </el-dialog>
     </el-card>

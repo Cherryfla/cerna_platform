@@ -8,16 +8,24 @@ import About from '../components/About/About'
 import Download from '../components/Feature/Download'
 import FAQ from '../components/FAQ/FAQ'
 import Register from '../components/User/Register'
+import Retrieve from '../components/User/Retrieve'
 import Login from '../components/User/Login'
 import Profile from '../components/User/Profile'
 import History from '../components/Feature/History'
 import Summary from '../components/Feature/Summary'
 import Data from '../components/Feature/Data'
-import Admin from '../components/Admin/Admin'
-import AdminUser from '../components/Admin/AdminUser'
-import AdminFaq from '../components/Admin/AdminFaq'
-import AdminFiles from '../components/Admin/AdminFiles'
-import Retrieve from '../components/User/Retrieve'
+
+// import Admin from '../components/Admin/Admin'
+// import AdminUser from '../components/Admin/AdminUser'
+// import AdminFaq from '../components/Admin/AdminFaq'
+// import AdminFiles from '../components/Admin/AdminFiles'
+// import Page404 from '../components/Error/Page404'
+//路由懒加载
+const Admin = ()=>import('../components/Admin/Admin')
+const AdminUser = ()=>import('../components/Admin/AdminUser')
+const AdminFaq = ()=>import('../components/Admin/AdminFaq')
+const AdminFiles = ()=>import('../components/Admin/AdminFiles')
+const Page404 = ()=>import('../components/Error/Page404')
 
 // 解决router.push跳转到同一路径发生的NavigationDuplicated错误
 const originalPush = VueRouter.prototype.push
@@ -108,7 +116,11 @@ const routes = [
           }
         ]
       }
-    ]
+    ],
+  },
+  {
+    path: '*',
+    component: Page404
   }
 ]
 

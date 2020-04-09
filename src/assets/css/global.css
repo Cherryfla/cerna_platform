@@ -61,3 +61,6 @@ html, body{
 .input-new-tag{
     width: 120px;
 }
+a {
+    text-decoration:none;
+}
