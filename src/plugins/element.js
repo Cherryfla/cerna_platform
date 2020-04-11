@@ -37,7 +37,8 @@ import {
   Popover,
   Divider,
   Step,
-  Steps
+  Steps,
+  Switch
 } from 'element-ui'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
@@ -80,6 +81,7 @@ Vue.use(Popover)
 Vue.use(Divider)
 Vue.use(Step)
 Vue.use(Steps)
+Vue.use(Switch)
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm

@@ -29,7 +29,7 @@ Vue.prototype.getUuid = function (){
 
 // cors
 // axios.defaults.withCredentials = false;
-axios.defaults.baseURL = 'http://121.41.85.40:8889/api/'
+axios.defaults.baseURL = 'http://121.41.85.40:8888/api/'
 Vue.prototype.$http = axios
 //在request拦截器中展示进度条
 axios.interceptors.request.use(config => {

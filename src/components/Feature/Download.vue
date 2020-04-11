@@ -19,9 +19,14 @@
       <!--文件列表区域-->
       <el-table :data="fileList" border stripe>
         <el-table-column fixed width="300px" label="File Name" prop="fields.file_name"></el-table-column>
-        <el-table-column width="200px" label="File Size(MB)" prop="fields.file_size"></el-table-column>
-        <el-table-column width="200px" label="Author" prop="fields.file_author"></el-table-column>
+        <el-table-column width="150px" label="File Size(MB)" prop="fields.file_size"></el-table-column>
+        <el-table-column width="150px" label="Author" prop="fields.file_author"></el-table-column>
         <el-table-column width="200px" label="Date" prop="fields.file_date"></el-table-column>
+        <el-table-column width="100px" label="Show" v-if="isAdmin">
+          <template slot-scope="scope">
+            <el-switch v-model="scope.row.fields.show" @change="handleShowChange(scope.row)"></el-switch>
+          </template>
+        </el-table-column>
         <el-table-column width="150px" label="Operation">
           <template slot-scope="scope">
             <el-button type="primary" icon="el-icon-download" size="mini"
@@ -94,6 +99,8 @@
         // console.log(res)
         if(res.status !== 200)
           return this.$message.error('get file list failed')
+        if(!this.isAdmin)
+          res.data.list = res.data.list.filter(item => item.fields.show)
         res.data.list.forEach(item => {
           item.fields.tags = item.fields.tags? item.fields.tags.split(',') : []
           item.inputVisible = false
@@ -171,6 +178,23 @@
         this.$nextTick(() => {
           this.$refs.showTagInput.$refs.input.focus();
         })
+      },
+      async handleShowChange(file){
+        const res = await this.$http.put('admin/filesmanage', {
+          id: file.pk,
+          show: file.fields.show
+        }).catch(error => {
+          if (error.response) {
+            return this.$message.error(error.response.data);
+          } else {
+            return this.$message.error(error.message);
+          }
+        })
+        if(res.status !== 200)
+          return this.$message.error('Update File Info Error')
+        if(res.data.msg != 'success')
+          return this.$message.error(this.data.msg)
+        this.$message.success('success')
       }
     },
     data() {
