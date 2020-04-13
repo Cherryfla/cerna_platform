@@ -18,9 +18,9 @@
       </el-row>
       <el-table :data="historyList" border stripe>
         <el-table-column width="100px" label="Run id" prop="pk"></el-table-column>
-        <el-table-column label="User" prop="fields.user"></el-table-column>
+        <el-table-column width="150px" label="User" prop="fields.user"></el-table-column>
         <el-table-column width="300px" label="Submit time" prop="fields.datetime" :formatter="dateFormat"></el-table-column>
-        <el-table-column width="150px" label="Operation" prop="fields.operation"></el-table-column>
+        <el-table-column label="Operation" prop="fields.operation"></el-table-column>
         <el-table-column width="200px" label="Result" >
           <template slot-scope="scope">
             <el-tag type="success" v-if="isUrl(scope.row.fields.result)" style="cursor: pointer;"
@@ -106,6 +106,17 @@
         return regUrl.test(value)
       },
       showResult(resultUrl){
+        // //创建隐藏的可下载链接
+        // let a = document.createElement('a');
+        // a.download = 'result.png';
+        // a.style.display = 'none';
+        // // 字符内容转变成blob地址
+        // let blob=new Blob([resultUrl]);
+        // a.href = URL.createObjectURL(blob);
+        // document.body.appendChild(a);
+        // // 触发点击
+        // a.click();
+        // document.body.removeChild(a);
         this.resultUrl = resultUrl
         this.resultVisible = true
       },

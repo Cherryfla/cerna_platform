@@ -130,7 +130,7 @@ const router = new VueRouter({
 
 //挂载路由导航守卫
 router.beforeEach((to, from, next) => {
-  let authPages = ['/profile', '/history', '/admin']
+  let authPages = ['/profile', '/history', '/admin', '/analyze']
   if(! authPages.includes(to.path) && !to.path.includes('/admin')) {
     return next()
   }

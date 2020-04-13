@@ -119,9 +119,17 @@
       },
       async downloadFile (fileName) {
         let fileUrl = 'http://121.41.85.40/data/' + fileName
-        let a = document.createElement('a');
-        a.href = fileUrl;
+        //创建隐藏的可下载链接
+        let a = document.createElement('a');
+        a.download = fileName;
+        a.style.display = 'none';
+        // 字符内容转变成blob地址
+        let blob=new Blob([fileUrl]);
+        a.href = URL.createObjectURL(blob);
+        document.body.appendChild(a);
+        // 触发点击
         a.click();
+        document.body.removeChild(a);
       },
       async deleteFile(fileName){
         const confirmResult = await this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
