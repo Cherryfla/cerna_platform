@@ -52,6 +52,9 @@
             <el-option label="default" value="default"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="Description:">
+          {{analyzeForm.description}}
+        </el-form-item>
         <div class="button-box">
           <el-button type="primary" @click="analyzeFormSubmit">Submit</el-button>
           <el-button type="danger" @click="resetForm">Reset</el-button>
@@ -78,6 +81,7 @@
           options: [],
           dataSource: 'default',
           analyzeCode: 'default',
+          description: ''
         },
         analyzeFormRules: {
           analyzeType: [
@@ -221,6 +225,7 @@
             key: i
           })
         }
+        this.analyzeForm.description = this.analyzeList[this.analyzeIndex].fields.description
       }
     }
   }

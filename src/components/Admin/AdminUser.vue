@@ -12,16 +12,16 @@
       <!--用户列表区域-->
       <el-table :data="userList" border stripe>
         <el-table-column type="index"></el-table-column>
-        <el-table-column label="Username" prop="pk"></el-table-column>
-        <el-table-column label="Register time" prop="fields.register_time"></el-table-column>
-        <el-table-column label="Password">
+        <el-table-column label="用户名" prop="pk"></el-table-column>
+        <el-table-column label="注册时间" prop="fields.register_time"></el-table-column>
+        <el-table-column label="密码">
           <template slot-scope="scope">
             {{scope.row.fields.power == 0?'******':scope.row.fields.password}}
           </template>
         </el-table-column>
-        <el-table-column label="Email" prop="fields.email"></el-table-column>
-        <el-table-column label="Power" prop="fields.power"></el-table-column>
-        <el-table-column label="Operation">
+        <el-table-column label="邮箱" prop="fields.email"></el-table-column>
+        <el-table-column label="权限" prop="fields.power"></el-table-column>
+        <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button type="primary" icon="el-icon-edit" :disabled="scope.row.fields.power === 0"
                        size="mini" @click="showEditUserDialog(scope.$index)"></el-button>

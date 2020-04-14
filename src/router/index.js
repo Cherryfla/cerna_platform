@@ -25,6 +25,7 @@ const Admin = ()=>import('../components/Admin/Admin')
 const AdminUser = ()=>import('../components/Admin/AdminUser')
 const AdminFaq = ()=>import('../components/Admin/AdminFaq')
 const AdminFiles = ()=>import('../components/Admin/AdminFiles')
+const AdminAnalyze = ()=>import('../components/Admin/AdminAnalyze')
 const Page404 = ()=>import('../components/Error/Page404')
 
 // 解决router.push跳转到同一路径发生的NavigationDuplicated错误
@@ -113,6 +114,10 @@ const routes = [
           {
             path: 'files',
             component: AdminFiles
+          },
+          {
+            path: 'analyze',
+            component: AdminAnalyze
           }
         ]
       }

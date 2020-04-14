@@ -94,12 +94,22 @@
               required: true,
               message: 'answer is required',
               trigger: 'blur'
+            },
+            {
+              max: 100,
+              message: 'length between 0 and 100',
+              trigger: 'blur'
             }
           ],
           question: [
             {
               required: true,
               message: 'question is required',
+              trigger: 'blur'
+            },
+            {
+              max: 200,
+              message: 'length between 0 and 200',
               trigger: 'blur'
             }
           ]
@@ -180,7 +190,7 @@
             }
           })
           if(res.status !== 200)
-            return this.$message.error('Edit issue failed')
+            return this.$message.error('Add issue failed')
           if(res.data.msg != 'success')
             return this.$message.error(res.data.msg)
           this.getIssueList()

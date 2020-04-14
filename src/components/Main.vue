@@ -204,6 +204,7 @@
     height: 290px;
     width: 250px;
     text-align: center;
+    transition: all 0.38s ease-out;
     .iconWrapper{
       margin: 30px 45px 20px 45px;
       cursor: pointer;
@@ -247,6 +248,9 @@
         background: #34bfa3;
       }
     }
+  }
+  .featureCard:hover{
+    box-shadow: 8px 8px 5px #eeeeee !important;
   }
   .chartCard{
     margin-top: 10px;
