@@ -106,19 +106,25 @@
         return regUrl.test(value)
       },
       showResult(resultUrl){
-        // //创建隐藏的可下载链接
-        // let a = document.createElement('a');
-        // a.download = 'result.png';
-        // a.style.display = 'none';
-        // // 字符内容转变成blob地址
-        // let blob=new Blob([resultUrl]);
-        // a.href = URL.createObjectURL(blob);
-        // document.body.appendChild(a);
-        // // 触发点击
-        // a.click();
-        // document.body.removeChild(a);
-        this.resultUrl = resultUrl
-        this.resultVisible = true
+        let resultFormat = resultUrl.split('.')
+        resultFormat = resultFormat[resultFormat.length-1]
+        // console.log(resultUrl, resultFormat)
+        if (resultFormat == 'png' || resultFormat == 'jpg'){
+          this.resultUrl = resultUrl
+          this.resultVisible = true
+        }
+        else {
+          //创建隐藏的可下载链接
+          let a = document.createElement('a')
+          a.download= 'result'
+          // 将url赋值给href
+          a.href = resultUrl
+          // console.log(a)
+          document.body.appendChild(a)
+          // 触发点击
+          a.click()
+          document.body.removeChild(a)
+        }
       },
       getTagType(text){
         if(text == 'completed' || text == 'success')

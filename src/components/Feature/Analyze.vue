@@ -61,6 +61,7 @@
         </div>
       </el-form>
     </el-card>
+    <el-backtop><i class="el-icon-caret-top"></i></el-backtop>
   </div>
 </template>
 
@@ -122,7 +123,13 @@
         if(res.data.msg != 'success')
           return this.$message.error(res.data.msg)
         //将options转化为对象
+        // console.log(res.data)
         res.data.list.forEach(item => {
+          if(!options) {
+            item.optionValue = []
+            item.optionName = []
+            return
+          }
           let options = item.fields.options.split(';')
           let optionName = []
           let optionValue = []
@@ -148,12 +155,13 @@
               optionStr+='_'
             optionStr += this.analyzeForm.options[i].value
           }
+          console.log(this.analyzeForm.dataSource)
           const res = await this.$http.post('feature/analyze', {
             id: this.analyzeList[this.analyzeIndex].pk,
             type: this.analyzeForm.analyzeType,
             options: optionStr,
-            dataSource: 'default',
-            analyzeCode: 'default',
+            dataSource: this.analyzeForm.dataSource,
+            analyzeCode: this.analyzeForm.analyzeCode,
           }).catch(error => {
             if (error.response) {
               this.$message.error(error.response.data);
@@ -174,6 +182,7 @@
       resetForm(){
         this.analyzeForm.analyzeType = ""
         this.analyzeForm.options = []
+        this.analyzeForm.description = ""
         // this.$refs.analyzeFormRef.resetFields()
         this.$refs.analyzeFormRef.clearValidate()
       },

@@ -33,6 +33,13 @@
       <el-table-column type="index" label="#"></el-table-column>
       <el-table-column label="分析类型" prop="fields.name"></el-table-column>
       <el-table-column label="描述" prop="fields.description"></el-table-column>
+      <el-table-column width="150px" label="结果格式">
+        <template slot-scope="scope">
+          <el-tag size="small">
+            {{scope.row.fields.resultFormat?scope.row.fields.resultFormat:'other'}}
+          </el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="primary" icon="el-icon-edit" size="mini"
@@ -64,6 +71,15 @@
         <el-form-item label="描述" prop="description">
           <el-input rows="3" type="textarea" v-model="editAnalyzeForm.description"></el-input>
         </el-form-item>
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="结果格式" prop="resultFormat">
+              <el-select v-model="editAnalyzeForm.resultFormat">
+                <el-option v-for="(item, i) in resultChoices" :key="i" :value="item[0]" :label="item[1]"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <!--是否允许自定义数据或代码-->
         <el-row>
           <el-col :span="12">
@@ -174,7 +190,7 @@
         <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
         <div class="el-upload__tip" slot="tip">文件大小不超过20M;</div>
         <div class="el-upload__tip" slot="tip">Code命名: 直接以对应 分析的Id命名;</div>
-        <div class="el-upload__tip" slot="tip">Data命名: 由选项值组成，并用'_'分隔;</div>
+<!--        <div class="el-upload__tip" slot="tip">Data命名: 由选项值组成，并用'_'分隔;</div>-->
       </el-upload>
     </el-dialog>
   </div>
@@ -205,6 +221,7 @@
         },
         analyzeList: [],
         analyzeTotal: 0,
+        resultChoices: [],
         editAnalyzeVisible: false,
         editAnalyzeForm: {},
         editAnalyzeRules: {
@@ -227,8 +244,16 @@
               trigger: 'blur'
             },
             {
-              max: 100,
+              max: 200,
               message: 'length between 0 and 100',
+              trigger: 'blur'
+            }
+          ],
+          resultFormat: [
+            {
+              min: 0,
+              max: 5,
+              message: 'invalid result format',
               trigger: 'blur'
             }
           ]
@@ -279,9 +304,10 @@
             item.options.push(tempObject)
           }
         })
-        // console.log(res.data.list)
         this.analyzeList = res.data.list
         this.analyzeTotal = res.data.total
+        this.resultChoices = res.data.resultChoices
+        console.log(res.data)
       },
       handleSizeChange(newSize){
         this.queryInfo.pageSize = newSize

@@ -29,9 +29,10 @@
         </el-table-column>
         <el-table-column width="150px" label="Operation">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-download" size="mini"
-                       @click="downloadFile(scope.row.fields.file_name)"></el-button>
-            <el-button type="danger" icon="el-icon-delete" size="mini"
+            <a :href="fileUrlBase+scope.row.fields.file_name" :download="scope.row.fields.file_name">
+              <el-button class="opeBtn" type="primary" icon="el-icon-download" size="mini"></el-button>
+            </a>
+            <el-button class="opeBtn" type="danger" icon="el-icon-delete" size="mini"
                        @click="deleteFile(scope.row.fields.file_name)" v-if="isAdmin"></el-button>
           </template>
         </el-table-column>
@@ -118,18 +119,15 @@
         this.getFileList()
       },
       async downloadFile (fileName) {
-        let fileUrl = 'http://121.41.85.40/data/' + fileName
-        //创建隐藏的可下载链接
-        let a = document.createElement('a');
-        a.download = fileName;
-        a.style.display = 'none';
-        // 字符内容转变成blob地址
-        let blob=new Blob([fileUrl]);
-        a.href = URL.createObjectURL(blob);
-        document.body.appendChild(a);
-        // 触发点击
-        a.click();
-        document.body.removeChild(a);
+        let fileUrl = this.fileUrlBase + fileName
+        let elemIF = document.createElement('iframe')
+        elemIF.src = fileUrl;
+        elemIF.style.display = 'none'
+        document.body.appendChild(elemIF)
+        // 防止下载两次
+        setTimeout(function() {
+          document.body.removeChild(elemIF)
+        }, 1000)
       },
       async deleteFile(fileName){
         const confirmResult = await this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
@@ -214,6 +212,7 @@
         },
         fileList: [],
         total: 0,
+        fileUrlBase: 'http://121.41.85.40/data/'
         // downLoadPower: 5
       }
     },
@@ -233,5 +232,8 @@
     margin-top: 10px ;
     text-align: center !important;
     display: inline;
+  }
+  .opeBtn{
+    margin-left: 5px;
   }
 </style>
