@@ -10,7 +10,7 @@
       <!--搜索区域-->
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-input placeholder="Please input file name" v-model="queryInfo.search"
+          <el-input placeholder="Please input operation name" v-model="queryInfo.search"
                     clearable @clear="getHistoryList">
             <el-button slot="append" icon="el-icon-search" @click="getHistoryList"></el-button>
           </el-input>

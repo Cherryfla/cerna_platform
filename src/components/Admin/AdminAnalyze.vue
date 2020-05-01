@@ -307,7 +307,7 @@
         this.analyzeList = res.data.list
         this.analyzeTotal = res.data.total
         this.resultChoices = res.data.resultChoices
-        console.log(res.data)
+        // console.log(res.data)
       },
       handleSizeChange(newSize){
         this.queryInfo.pageSize = newSize

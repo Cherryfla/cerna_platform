@@ -8,6 +8,8 @@
     </el-breadcrumb>
     <el-card>
     <!--表单区域-->
+      <el-row>
+      <el-col :span="12">
       <el-form ref="analyzeFormRef" :model="analyzeForm" :rules="analyzeFormRules"
                label-width="300px" label-position="top" v-loading="formLoading"
                element-loading-text="Analyzing...">
@@ -55,11 +57,13 @@
         <el-form-item label="Description:">
           {{analyzeForm.description}}
         </el-form-item>
-        <div class="button-box">
-          <el-button type="primary" @click="analyzeFormSubmit">Submit</el-button>
-          <el-button type="danger" @click="resetForm">Reset</el-button>
-        </div>
       </el-form>
+      </el-col>
+      </el-row>
+      <div class="button-box">
+        <el-button type="primary" @click="analyzeFormSubmit">Submit</el-button>
+        <el-button type="danger" @click="resetForm">Reset</el-button>
+      </div>
     </el-card>
     <el-backtop><i class="el-icon-caret-top"></i></el-backtop>
   </div>
@@ -125,7 +129,7 @@
         //将options转化为对象
         // console.log(res.data)
         res.data.list.forEach(item => {
-          if(!options) {
+          if(!item.fields.options) {
             item.optionValue = []
             item.optionName = []
             return
@@ -248,9 +252,9 @@
   .el-select{
     width: 100%;
   }
-  .el-form-item{
-    width: 500px !important;
-  }
+  /*.el-form-item{*/
+  /*  width: 500px !important;*/
+  /*}*/
   .el-button{
     width: 250px;
   }

@@ -31,7 +31,7 @@
         </el-tab-pane>
         <!--New Issue标签-->
         <el-tab-pane label="New Issue" name="new_issue">
-          <el-form ref="newIssueFormRef" :model="newIssueForm"
+          <el-form ref="newIssueFormRef" :model="newIssueForm" :disabled="!isLogin"
                    :rules="newIssueFormRules" label-position="top">
             <el-form-item label="Your Question:" prop="question" >
               <el-input type="textarea" class="questionBox" :rows="12"

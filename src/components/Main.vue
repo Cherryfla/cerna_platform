@@ -80,8 +80,8 @@
             right: '0',
             top: '0',
             textStyle: {
-              fontSize: '15px',
-              fontWeight: 'bold'
+              fontSize: 15,
+              // fontWeight: 'bold'
             }
           },
           tooltip: {
@@ -93,22 +93,25 @@
           xAxis: {
             type: 'category',
             show: true,
-            interval:0,
+            interval: 0,
             data: this.chartKeys,
-
+            axisLabel: {
+              rotate: -45,
+              fontSize: 10,
+              // formatter: '{value}ss'
+              formatter: function (value, index) {
+                if(value.length>10){
+                  return value.substr(0,5)+'...'
+                }
+                else{
+                  return value
+                }
+              }
+            }
           },
           yAxis: {
             minInterval: 1,
             type: 'value'
-          },
-          axisLabel:{
-            formatter: function (value, index) {
-              if(value.length>10){
-                return value.substr(0,5)+'...'
-              }else{
-                return value
-              }
-            }
           },
           grid: {
             top: '11%',
